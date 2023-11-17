@@ -22,11 +22,15 @@ typedef struct{
 }CSV;
 
 
+CSV easyOpenCSV(char *filename);
+
+void closeCSV(CSV *subject);
+
 Dimensions getSize(FILE *source, char colDelin, char rowDelin, int maxEntrySize);
 
 void readCSV(CSV *subject, char destination[subject->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex);
 
-CSV fileToCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE);
+CSV openCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE);
 
 void printCSV(CSV *source,int rowStartVal,char colDelin, char rowDelin);
 
@@ -38,4 +42,4 @@ void arrayToCSV(CSV *dest,void *array, int size, size_t arrayElementSize, int ro
 
 CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize);
 
-void closeCSV(CSV *subject);
+CSV DMakeBlankCSV(Dimensions *source);

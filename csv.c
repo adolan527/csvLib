@@ -53,7 +53,7 @@ Dimensions getSize(FILE *source, char colDelin, char rowDelin, int maxEntrySize)
 }
 
 
-CSV fileToCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE){
+CSV openCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE){
     CSV data;
     data.size = getSize(source,colDelin,rowDelin,MAX_ENTRY_SIZE);
     size_t rowSize = sizeof(char[data.size.maxEntrySize]) * data.size.cCount;
@@ -193,7 +193,16 @@ CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize){
     size_t rowSize = sizeof(char[new.size.maxEntrySize]) * new.size.cCount;
     new.rows = (char*)calloc(new.size.rCount,rowSize);
     return new;
+}
 
+CSV DMakeBlankCSV(Dimensions *source){
+    CSV new;
+    new.size.cCount = source->cCount;
+    new.size.rCount = source->rCount;
+    new.size.maxEntrySize = source->maxEntrySize;
+    size_t rowSize = sizeof(char[new.size.maxEntrySize]) * new.size.cCount;
+    new.rows = (char*)calloc(new.size.rCount,rowSize);
+    return new;
 }
 
 void closeCSV(CSV *subject){
@@ -203,6 +212,6 @@ void closeCSV(CSV *subject){
 CSV easyOpenCSV(char *filename){
 
     FILE *easyFile = fopen(filename,"r+");
-    CSV easyCSV = fileToCSV(easyFile,',','\n',0);
+    CSV easyCSV = openCSV(easyFile, ',', '\n', 0);
     return easyCSV;
 }
