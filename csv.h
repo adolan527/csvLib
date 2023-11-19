@@ -19,10 +19,13 @@ typedef struct{
 typedef struct{
     Dimensions size;
     char *rows;
+    FILE *fileSource;
 }CSV;
 
 
 CSV easyOpenCSV(char *filename);
+
+void easyCloseCSV(CSV *subject);
 
 void closeCSV(CSV *subject);
 

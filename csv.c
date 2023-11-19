@@ -210,8 +210,16 @@ void closeCSV(CSV *subject){
 }
 
 CSV easyOpenCSV(char *filename){
-
     FILE *easyFile = fopen(filename,"r+");
     CSV easyCSV = openCSV(easyFile, ',', '\n', 0);
     return easyCSV;
+}
+
+void easyCloseCSV(CSV *subject){
+    free(subject->rows);
+    fclose(subject->fileSource);
+}
+
+void easySaveCSV(CSV *source){
+    saveCSV(source,source->fileSource,0);
 }

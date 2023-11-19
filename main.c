@@ -11,7 +11,8 @@ int main() {
     CSV chungus = openCSV(file, ',', '\n', max);
 
     printCSV(&chungus,0,',','\n');
-
+    saveCSV(&chungus,file,0);
+    printf("Row count: %d",chungus.size.rCount);
     closeCSV(&chungus);
     fclose(file);
 
