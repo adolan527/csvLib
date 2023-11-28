@@ -18,18 +18,9 @@ int main() {
 
     CSV names = openCSV(file, ',', '\n', 0);
     fclose(file);
-    char buf[36] = "qwerqwerqwerqwerqwerqwerqwerqwerasdf";
-    printf("%s\n",CSVREADLIT(names,1,2));
+    removeEmptyRows(&names,Before + Inside + Outside);
 
-    printf("%d\n",names.size.maxEntrySize);
-
-    displayCSV(&names,0,',','\n',stdout);
-    if(CSVWRITELIT(names,0,1,buf) != 0){printf("error");}
-    displayCSV(&names,0,',','\n',stdout);
-
-
-
-    //saveCSV(&names,"C:\\Users\\Aweso\\CLionProjects\\csvLib\\names.csv");
+    saveCSV(&names,"C:\\Users\\Aweso\\CLionProjects\\csvLib\\names.csv");
 
     closeCSV(&names);
 
