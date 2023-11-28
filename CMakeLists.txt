@@ -5,4 +5,7 @@ set(CMAKE_C_STANDARD 23)
 
 add_executable(CSV main.c
         csv.c
-        csv.h)
+        csv.h
+        csvUtils.c
+        csvUtils.h
+        testing.c)

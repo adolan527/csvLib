@@ -55,6 +55,7 @@ Dimensions getSize(FILE *source, char colDelin, char rowDelin, int maxEntrySize)
 
 CSV openCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE){
     CSV data;
+    CSV *dataPtr = &data;
     data.size = getSize(source,colDelin,rowDelin,MAX_ENTRY_SIZE);
     size_t rowSize = sizeof(char[data.size.maxEntrySize]) * data.size.cCount;
     data.rows = (char*)calloc(data.size.rCount,rowSize);
@@ -95,7 +96,7 @@ CSV openCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE){
             rowIndex++;
         }
         else{
-            data.rows[data.size.maxEntrySize*(rowIndex * data.size.cCount + colIndex) + entryIndex] = input;
+            data.rows[CSVINDEXREF(dataPtr, rowIndex, colIndex) + entryIndex] = input;
             entryIndex++;
         }
 
@@ -104,82 +105,84 @@ CSV openCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE){
     return data;
 };
 
-void readCSV(CSV *subject, char destination[subject->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex){
-    if(characterIndex > subject->size.maxEntrySize - 1){
+void readCSV(CSV *source, char destination[source->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex){
+    if(characterIndex > source->size.maxEntrySize - 1){
         characterIndex=0;
     }
-    strncpy(destination, &subject->rows[subject->size.maxEntrySize*(rowIndex * subject->size.cCount + colIndex) + characterIndex], subject->size.maxEntrySize);
+    strncpy(destination, &source->rows[CSVINDEXREF(source, rowIndex, colIndex) + characterIndex], source->size.maxEntrySize - characterIndex);
 }
 
-void editCSV(CSV *subject, char info[subject->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex){
-    if(characterIndex > subject->size.maxEntrySize - 1){
+void editCSV(CSV *source, char info[source->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex){
+    if(characterIndex > source->size.maxEntrySize - 1){
         characterIndex=0;
     }
-    strncpy(&subject->rows[subject->size.maxEntrySize*(rowIndex * subject->size.cCount + colIndex) + characterIndex], info, subject->size.maxEntrySize);
+    strncpy(&source->rows[source->size.maxEntrySize*(rowIndex * source->size.cCount + colIndex) + characterIndex], info, source->size.maxEntrySize);
 }
 
-void printCSV(CSV *source,int rowStartVal,char colDelin, char rowDelin){
-    int index = 0;
-
-    printf(" |");
+void displayCSV(CSV *source, int rowStartVal, char colDelin, char rowDelin,FILE *outputStream){
+    fprintf(outputStream," |");
     for(int header = 0;header<source->size.cCount;header++){
-        printf("%c|",header+65);
+        fprintf(outputStream,"%c|",header+65);
     }
-    printf("%c",rowDelin);
+    fprintf(outputStream,"%c",rowDelin);
 
     for(int row = 0;row<source->size.rCount;row++){
-        printf("%d|", row + rowStartVal);
+        fprintf(outputStream,"%d|", row + rowStartVal);
         for(int col = 0;col<source->size.cCount;col++){
-            index = source->size.maxEntrySize*(row * source->size.cCount + col);
-            if(source->rows[index] != '\0'){
-                printf("%s",&source->rows[index]);
+            if(source->rows[CSVINDEXREF(source, row, col)] != '\0'){
+                fprintf(outputStream,"%s",&source->rows[CSVINDEXREF(source, row, col)]);
             }
             if(source->size.cCount - col != 1){
-                printf("%c",colDelin);
+                fprintf(outputStream,"%c",colDelin);
             }
         }
-        printf("%c",rowDelin);
+        fprintf(outputStream,"%c",rowDelin);
     }
 
 }
 
-void saveCSV(CSV *source, FILE *dest, int indexStart){
-    rewind(dest);
-    int buffer = fgetc(dest);
-    while(buffer != EOF){
-        fputc(0,dest);
-        buffer = fgetc(dest);
+int saveCSV(CSV *source, char *filename){
+    FILE *destination = fopen(filename,"w");
+
+    if(destination == NULL){
+        perror("ERROR: Cannot open file.");
+        return 1;
     }
-    rewind(dest);
+
     for(int row = 0;row<source->size.rCount;row++){
         for(int col = 0;col<source->size.cCount;col++){
-            fprintf(dest,"%s",&source->rows[source->size.maxEntrySize*(row * source->size.cCount + col)]);
+            fprintf(destination, "%s", &source->rows[CSVINDEXREF(source, row, col)]);
             if(source->size.cCount - col != 1){
-                fprintf(dest,",");
+                fprintf(destination, ",");
             }
         }
         if(source->size.rCount - row != 1){
-            fprintf(dest,"\n");
+            fprintf(destination, "\n");
         }
     }
+    fclose(destination);
+    return 0;
 }
 
 
-void arrayToCSV(CSV *dest,void *array, int size, size_t arrayElementSize, int rowIndex, int colIndex,char rc){
-    if(rc == 'r'){
-        if(size > dest->size.cCount){
+void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize, int rowIndex, int colIndex, char rc){
+    if(array == NULL){
+        return;
+    }
+    if(rc == 'r'){//copies array to a row
+        if(arraySize > dest->size.cCount){
             return;
         }
-        for(int i = 0;i<size;i++){
-            editCSV(dest,&array[i],rowIndex,colIndex+i,0);
+        for(int i = 0; i < arraySize; i++){
+            editCSV(dest,&array[i*arrayElementSize],rowIndex,colIndex+i,0);
         }
     }
-    else if (rc == 'c'){
-        if(size > dest->size.rCount){
+    else if (rc == 'c'){//copies array to a column
+        if(arraySize > dest->size.rCount){
             return;
         }
 
-        for(int i = 0;i<size;i++){
+        for(int i = 0; i < arraySize; i++){
             editCSV(dest,&array[i*arrayElementSize],rowIndex+i,colIndex,0);
         }
     }
@@ -197,29 +200,30 @@ CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize){
 
 CSV DMakeBlankCSV(Dimensions *source){
     CSV new;
-    new.size.cCount = source->cCount;
-    new.size.rCount = source->rCount;
-    new.size.maxEntrySize = source->maxEntrySize;
+    new.size = *source;
     size_t rowSize = sizeof(char[new.size.maxEntrySize]) * new.size.cCount;
     new.rows = (char*)calloc(new.size.rCount,rowSize);
     return new;
 }
 
-void closeCSV(CSV *subject){
-    free(subject->rows);
+
+
+void closeCSV(CSV *source){
+    free(source->rows);
 }
 
 CSV easyOpenCSV(char *filename){
     FILE *easyFile = fopen(filename,"r+");
     CSV easyCSV = openCSV(easyFile, ',', '\n', 0);
+    easyCSV.filename = filename;
+    fclose(easyFile);
     return easyCSV;
 }
 
-void easyCloseCSV(CSV *subject){
-    free(subject->rows);
-    fclose(subject->fileSource);
+void easyCloseCSV(CSV *source){
+    free(source->rows);
 }
 
 void easySaveCSV(CSV *source){
-    saveCSV(source,source->fileSource,0);
+    saveCSV(source,source->filename);
 }

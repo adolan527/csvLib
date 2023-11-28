@@ -52,10 +52,10 @@ RM = "C:\Program Files\JetBrains\CLion 2023.2\bin\cmake\win\x64\bin\cmake.exe" -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Aweso\CLionProjects\CSV
+CMAKE_SOURCE_DIR = C:\Users\Aweso\CLionProjects\csvLib
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/CSV.dir/depend.make
@@ -69,48 +69,80 @@ include CMakeFiles/CSV.dir/progress.make
 include CMakeFiles/CSV.dir/flags.make
 
 CMakeFiles/CSV.dir/main.c.obj: CMakeFiles/CSV.dir/flags.make
-CMakeFiles/CSV.dir/main.c.obj: C:/Users/Aweso/CLionProjects/CSV/main.c
+CMakeFiles/CSV.dir/main.c.obj: C:/Users/Aweso/CLionProjects/csvLib/main.c
 CMakeFiles/CSV.dir/main.c.obj: CMakeFiles/CSV.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/CSV.dir/main.c.obj"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CSV.dir/main.c.obj -MF CMakeFiles\CSV.dir\main.c.obj.d -o CMakeFiles\CSV.dir\main.c.obj -c C:\Users\Aweso\CLionProjects\CSV\main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/CSV.dir/main.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CSV.dir/main.c.obj -MF CMakeFiles\CSV.dir\main.c.obj.d -o CMakeFiles\CSV.dir\main.c.obj -c C:\Users\Aweso\CLionProjects\csvLib\main.c
 
 CMakeFiles/CSV.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CSV.dir/main.c.i"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Aweso\CLionProjects\CSV\main.c > CMakeFiles\CSV.dir\main.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Aweso\CLionProjects\csvLib\main.c > CMakeFiles\CSV.dir\main.c.i
 
 CMakeFiles/CSV.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CSV.dir/main.c.s"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Aweso\CLionProjects\CSV\main.c -o CMakeFiles\CSV.dir\main.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Aweso\CLionProjects\csvLib\main.c -o CMakeFiles\CSV.dir\main.c.s
 
 CMakeFiles/CSV.dir/csv.c.obj: CMakeFiles/CSV.dir/flags.make
-CMakeFiles/CSV.dir/csv.c.obj: C:/Users/Aweso/CLionProjects/CSV/csv.c
+CMakeFiles/CSV.dir/csv.c.obj: C:/Users/Aweso/CLionProjects/csvLib/csv.c
 CMakeFiles/CSV.dir/csv.c.obj: CMakeFiles/CSV.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/CSV.dir/csv.c.obj"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CSV.dir/csv.c.obj -MF CMakeFiles\CSV.dir\csv.c.obj.d -o CMakeFiles\CSV.dir\csv.c.obj -c C:\Users\Aweso\CLionProjects\CSV\csv.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/CSV.dir/csv.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CSV.dir/csv.c.obj -MF CMakeFiles\CSV.dir\csv.c.obj.d -o CMakeFiles\CSV.dir\csv.c.obj -c C:\Users\Aweso\CLionProjects\csvLib\csv.c
 
 CMakeFiles/CSV.dir/csv.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CSV.dir/csv.c.i"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Aweso\CLionProjects\CSV\csv.c > CMakeFiles\CSV.dir\csv.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Aweso\CLionProjects\csvLib\csv.c > CMakeFiles\CSV.dir\csv.c.i
 
 CMakeFiles/CSV.dir/csv.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CSV.dir/csv.c.s"
-	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Aweso\CLionProjects\CSV\csv.c -o CMakeFiles\CSV.dir\csv.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Aweso\CLionProjects\csvLib\csv.c -o CMakeFiles\CSV.dir\csv.c.s
+
+CMakeFiles/CSV.dir/csvUtils.c.obj: CMakeFiles/CSV.dir/flags.make
+CMakeFiles/CSV.dir/csvUtils.c.obj: C:/Users/Aweso/CLionProjects/csvLib/csvUtils.c
+CMakeFiles/CSV.dir/csvUtils.c.obj: CMakeFiles/CSV.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/CSV.dir/csvUtils.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CSV.dir/csvUtils.c.obj -MF CMakeFiles\CSV.dir\csvUtils.c.obj.d -o CMakeFiles\CSV.dir\csvUtils.c.obj -c C:\Users\Aweso\CLionProjects\csvLib\csvUtils.c
+
+CMakeFiles/CSV.dir/csvUtils.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CSV.dir/csvUtils.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Aweso\CLionProjects\csvLib\csvUtils.c > CMakeFiles\CSV.dir\csvUtils.c.i
+
+CMakeFiles/CSV.dir/csvUtils.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CSV.dir/csvUtils.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Aweso\CLionProjects\csvLib\csvUtils.c -o CMakeFiles\CSV.dir\csvUtils.c.s
+
+CMakeFiles/CSV.dir/testing.c.obj: CMakeFiles/CSV.dir/flags.make
+CMakeFiles/CSV.dir/testing.c.obj: C:/Users/Aweso/CLionProjects/csvLib/testing.c
+CMakeFiles/CSV.dir/testing.c.obj: CMakeFiles/CSV.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/CSV.dir/testing.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/CSV.dir/testing.c.obj -MF CMakeFiles\CSV.dir\testing.c.obj.d -o CMakeFiles\CSV.dir\testing.c.obj -c C:\Users\Aweso\CLionProjects\csvLib\testing.c
+
+CMakeFiles/CSV.dir/testing.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/CSV.dir/testing.c.i"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Aweso\CLionProjects\csvLib\testing.c > CMakeFiles\CSV.dir\testing.c.i
+
+CMakeFiles/CSV.dir/testing.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/CSV.dir/testing.c.s"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Aweso\CLionProjects\csvLib\testing.c -o CMakeFiles\CSV.dir\testing.c.s
 
 # Object files for target CSV
 CSV_OBJECTS = \
 "CMakeFiles/CSV.dir/main.c.obj" \
-"CMakeFiles/CSV.dir/csv.c.obj"
+"CMakeFiles/CSV.dir/csv.c.obj" \
+"CMakeFiles/CSV.dir/csvUtils.c.obj" \
+"CMakeFiles/CSV.dir/testing.c.obj"
 
 # External object files for target CSV
 CSV_EXTERNAL_OBJECTS =
 
 CSV.exe: CMakeFiles/CSV.dir/main.c.obj
 CSV.exe: CMakeFiles/CSV.dir/csv.c.obj
+CSV.exe: CMakeFiles/CSV.dir/csvUtils.c.obj
+CSV.exe: CMakeFiles/CSV.dir/testing.c.obj
 CSV.exe: CMakeFiles/CSV.dir/build.make
 CSV.exe: CMakeFiles/CSV.dir/linkLibs.rsp
 CSV.exe: CMakeFiles/CSV.dir/objects1.rsp
 CSV.exe: CMakeFiles/CSV.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable CSV.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable CSV.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\CSV.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -122,6 +154,6 @@ CMakeFiles/CSV.dir/clean:
 .PHONY : CMakeFiles/CSV.dir/clean
 
 CMakeFiles/CSV.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Aweso\CLionProjects\CSV C:\Users\Aweso\CLionProjects\CSV C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug\CMakeFiles\CSV.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Aweso\CLionProjects\csvLib C:\Users\Aweso\CLionProjects\csvLib C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles\CSV.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/CSV.dir/depend
 

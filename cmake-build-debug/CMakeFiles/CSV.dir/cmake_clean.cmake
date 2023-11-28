@@ -1,8 +1,12 @@
 file(REMOVE_RECURSE
   "CMakeFiles/CSV.dir/csv.c.obj"
   "CMakeFiles/CSV.dir/csv.c.obj.d"
+  "CMakeFiles/CSV.dir/csvUtils.c.obj"
+  "CMakeFiles/CSV.dir/csvUtils.c.obj.d"
   "CMakeFiles/CSV.dir/main.c.obj"
   "CMakeFiles/CSV.dir/main.c.obj.d"
+  "CMakeFiles/CSV.dir/testing.c.obj"
+  "CMakeFiles/CSV.dir/testing.c.obj.d"
   "CSV.exe"
   "CSV.exe.manifest"
   "CSV.pdb"

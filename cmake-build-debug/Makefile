@@ -56,10 +56,10 @@ RM = "C:\Program Files\JetBrains\CLion 2023.2\bin\cmake\win\x64\bin\cmake.exe" -
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Aweso\CLionProjects\CSV
+CMAKE_SOURCE_DIR = C:\Users\Aweso\CLionProjects\csvLib
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug\CMakeFiles C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Aweso\CLionProjects\CSV\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Aweso\CLionProjects\csvLib\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -152,6 +152,30 @@ csv.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/csv.c.s
 .PHONY : csv.c.s
 
+csvUtils.obj: csvUtils.c.obj
+.PHONY : csvUtils.obj
+
+# target to build an object file
+csvUtils.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/csvUtils.c.obj
+.PHONY : csvUtils.c.obj
+
+csvUtils.i: csvUtils.c.i
+.PHONY : csvUtils.i
+
+# target to preprocess a source file
+csvUtils.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/csvUtils.c.i
+.PHONY : csvUtils.c.i
+
+csvUtils.s: csvUtils.c.s
+.PHONY : csvUtils.s
+
+# target to generate assembly for a file
+csvUtils.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/csvUtils.c.s
+.PHONY : csvUtils.c.s
+
 main.obj: main.c.obj
 .PHONY : main.obj
 
@@ -176,6 +200,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/main.c.s
 .PHONY : main.c.s
 
+testing.obj: testing.c.obj
+.PHONY : testing.obj
+
+# target to build an object file
+testing.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/testing.c.obj
+.PHONY : testing.c.obj
+
+testing.i: testing.c.i
+.PHONY : testing.i
+
+# target to preprocess a source file
+testing.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/testing.c.i
+.PHONY : testing.c.i
+
+testing.s: testing.c.s
+.PHONY : testing.s
+
+# target to generate assembly for a file
+testing.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CSV.dir\build.make CMakeFiles/CSV.dir/testing.c.s
+.PHONY : testing.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -188,9 +236,15 @@ help:
 	@echo ... csv.obj
 	@echo ... csv.i
 	@echo ... csv.s
+	@echo ... csvUtils.obj
+	@echo ... csvUtils.i
+	@echo ... csvUtils.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... testing.obj
+	@echo ... testing.i
+	@echo ... testing.s
 .PHONY : help
 
 
