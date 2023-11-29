@@ -22,13 +22,20 @@ int main() {
     CSV names = openCSV(file, custom);
     fclose(file);
 
+    int r, c;
+    indexToCoordinates(&names,CSVINDEXLIT(names,0,3),&r,&c);
+    indexToCoordinates(&names,CSVINDEXLIT(names,2,7),&r,&c);
+    indexToCoordinates(&names,CSVINDEXLIT(names,10,3),&r,&c);
+    indexToCoordinates(&names,CSVINDEXLIT(names,8,5),&r,&c);
+
+
 
     CSV new = makeBlankCSV(5,10,21);
     copyCSV(&names,&new);
 
-    displayCSV(&names,0,custom, stdout);
+    //displayCSV(&names,0,custom, stdout);
     printf("-------------------\n");
-    displayCSV(&new,0,custom, stdout);
+    //displayCSV(&new,0,custom, stdout);
 
     saveCSV(&names,filename2,custom);
 
