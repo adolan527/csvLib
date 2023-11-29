@@ -23,6 +23,14 @@ typedef struct{
 
 }CSV;
 
+typedef struct{
+    char colDelin;
+    char rowDelin;
+    int maxEntrySize;
+}CSVSettings;
+
+extern const CSVSettings DEFAULT_SETTINGS;
+
 //Macros for accessing CSV, function calls would be unecessary, these don't have side-effects, and are commonly used.
 //Ref for pointer to CSV, LIT for CSV by value.
 
@@ -36,21 +44,21 @@ typedef struct{
 
 //wrapper for strncpy_s. Having function calls in a macro is cringe, but strncpy_s is far superior to strcpy at least.
 //Returns 0 on success, non zero on failure. If you are going to use this, you should at least check for 0.
-#define CSVWRITEREF(_csvPtr,_row,_col,_srcPtr) strncpy_s(_csvPtr->rows[CSVINDEXREF(_csvPtr,_row,_col)], _csvPtr->size.maxEntrySize, _srcPtr, _csvPtr->size.maxEntrySize)
+#define CSVWRITEREF(_csvPtr,_row,_col,_srcPtr) strncpy_s(&_csvPtr->rows[CSVINDEXREF(_csvPtr,_row,_col)], _csvPtr->size.maxEntrySize, _srcPtr, _csvPtr->size.maxEntrySize)
 #define CSVWRITELIT(_csv,_row,_col,_srcPtr) strncpy_s(&_csv.rows[CSVINDEXLIT(_csv,_row,_col)], _csv.size.maxEntrySize,_srcPtr, _csv.size.maxEntrySize)
 
 
-CSV openCSV(FILE *source, char colDelin, char rowDelin, int MAX_ENTRY_SIZE);
+CSV openCSV(FILE *source, const CSVSettings settings);
 
 void closeCSV(CSV *subject);
 
-void displayCSV(CSV *source, int rowStartVal, char colDelin, char rowDelin, FILE *outputStream);
+void displayCSV(CSV *source, int rowStartVal, CSVSettings settings,FILE *outputStream);
 
 void editCSV(CSV *subject, char info[subject->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex);
 
-int saveCSV(CSV *source, char *filename);
+int saveCSV(CSV *source, char *filename, CSVSettings settings);
 
-Dimensions getSize(FILE *source, char colDelin, char rowDelin, int maxEntrySize);
+Dimensions getSize(FILE *source,CSVSettings settings);
 
 void readCSV(CSV *source, char destination[source->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex);
 
@@ -59,6 +67,8 @@ void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize,
 CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize);
 
 CSV DMakeBlankCSV(Dimensions *source);
+
+void copyCSV(CSV *source, CSV *dest);
 
 CSV easyOpenCSV(char *filename);
 
