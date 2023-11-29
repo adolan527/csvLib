@@ -213,6 +213,8 @@ void copyCSV(CSV *source, CSV *dest){
     }
 }
 
+void rectangleCopy(CSV *source, CSV *dest,int r);
+
 CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize){
     CSV new;
     new.size.cCount = cCount;
@@ -229,6 +231,31 @@ CSV DMakeBlankCSV(Dimensions *source){
     size_t rowSize = sizeof(char[new.size.maxEntrySize]) * new.size.cCount;
     new.rows = (char*)calloc(new.size.rCount,rowSize);
     return new;
+}
+
+int indexToCoordinates(CSV *source, int index, int *rowDest, int *colDest){
+
+    int firstRowGuess = index/(source->size.maxEntrySize * source->size.cCount) - 1;
+    printf("F: %d\n",firstRowGuess);
+    int colGuess = (index/source->size.maxEntrySize) - firstRowGuess * source->size.cCount;
+    while(colGuess>source->size.cCount){
+        firstRowGuess++;
+        colGuess = (index/source->size.maxEntrySize) - firstRowGuess * source->size.cCount;
+    }
+
+    if(firstRowGuess > source->size.rCount){
+        printf("Out of bounds\n");
+        *rowDest = -1;
+        *colDest = -1;
+        return -1;
+    }
+    else{
+        printf("R: %d C: %d\n",firstRowGuess,colGuess);
+        *rowDest = firstRowGuess;
+        *colDest = colGuess;
+        return 0;
+    }
+
 }
 
 

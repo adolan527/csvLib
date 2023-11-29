@@ -68,6 +68,8 @@ CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize);
 
 CSV DMakeBlankCSV(Dimensions *source);
 
+int indexToCoordinates(CSV *source, int index, int *rowDest, int *colDest);
+
 void copyCSV(CSV *source, CSV *dest);
 
 CSV easyOpenCSV(char *filename);
