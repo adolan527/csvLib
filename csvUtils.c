@@ -165,3 +165,145 @@ void mapColumns(CSV *source,char dest[source->size.cCount]){
 
 }
 
+int rectangleCopy(CSV *source, CSV *dest,
+                  int rSrc1,int cSrc1,
+                  int rSrc2,int cSrc2,
+                  int rDest,int cDest){
+    /*source and dest can be the same array, however:
+     * If dest is before source, it will work as intended even if they overlap
+     * If dest and source don't overlap, then it works
+     * If dest is after source and they overlap, then it will copy itself and data will be lost
+     */
+    if(rSrc1 >= source->size.rCount || cSrc1 >= source->size.cCount || rSrc2 >= source->size.rCount || cSrc2 >= source->size.cCount){
+        printf("Error: Out of bounds source in rectangleCopy\n"); //src is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rSrc1: %d cSrc1: %d rSrc2: %d cSrc2: %d rMax: %d cMax: %d\n",rSrc1,cSrc1,rSrc2,cSrc2,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+    if(rDest >= dest->size.rCount || cDest >= dest->size.cCount){
+        printf("Error: Out of bounds destination in rectangleCopy\n"); //dest is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rDest: %d cDest: %d rMax: %d cMax: %d\n",rDest,cDest,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+    char buffer[source->size.maxEntrySize];
+    int height = rSrc2-rSrc1;
+    int width = cSrc2-cSrc1;
+    for(int row = 0;row<=height;row++){
+        for(int col = 0;col<=width;col++){
+            if(rDest+row >= dest->size.rCount || cDest+col >= dest->size.cCount){
+                break;
+            }
+            if(CSVWRITEREF(dest,(rDest+row),(cDest+col),CSVREADREF(source,(row+rSrc1),(col+cSrc1)))!=0){
+                strncpy(buffer,CSVREADREF(source,(row+rSrc1),(col+cSrc1)),source->size.maxEntrySize);
+                buffer[dest->size.maxEntrySize-1] = 0;
+                if(CSVWRITEREF(dest,(rDest+row),(cDest+col),buffer)!=0){
+                    printf("Error copying %s to row %d column %d\n",buffer,(rDest+row),(cDest+col));
+                    printf("Source string size: %d Dest size: %d\n",strlen(buffer),dest->size.maxEntrySize);
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int rectangleSwap(CSV *source, CSV *dest,
+                  int rSrc1,int cSrc1,
+                  int rSrc2,int cSrc2,
+                  int rDest,int cDest){
+
+    if(rSrc1 >= source->size.rCount || cSrc1 >= source->size.cCount || rSrc2 >= source->size.rCount || cSrc2 >= source->size.cCount){
+        printf("Error: Out of bounds source in rectangleSwap\n"); //src is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rSrc1: %d cSrc1: %d rSrc2: %d cSrc2: %d rMax: %d cMax: %d\n",rSrc1,cSrc1,rSrc2,cSrc2,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+    if(rDest >= dest->size.rCount || cDest >= dest->size.cCount){
+        printf("Error: Out of bounds destination in rectangleSwap\n"); //dest is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rDest: %d cDest: %d rMax: %d cMax: %d\n",rDest,cDest,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+    char buffer[(source->size.maxEntrySize > dest->size.maxEntrySize ? source->size.maxEntrySize : dest->size.maxEntrySize)];
+    int height = rSrc2-rSrc1;
+    int width = cSrc2-cSrc1;
+
+    if(rDest+height >= dest->size.rCount || cDest+width >= dest->size.cCount){
+        printf("Error: Out of bounds destination in rectangleSwap\n"); //dest is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rDest: %d cDest: %d rMax: %d cMax: %d\n",rDest,cDest,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+
+    for(int row = 0;row<=height;row++){
+        for(int col = 0;col<=width;col++){
+            if(rDest+row >= dest->size.rCount || cDest+col >= dest->size.cCount){
+                break;
+            }
+            strncpy_s(buffer,dest->size.maxEntrySize,CSVREADREF(dest,(row+rDest),(col+cDest)),dest->size.maxEntrySize);
+            //puts destination info into buffer
+            if(CSVWRITEREF(dest,(rDest+row),(cDest+col),CSVREADREF(source,(row+rSrc1),(col+cSrc1)))!=0){ //copies source into dest
+                char truncateBuffer[source->size.maxEntrySize];
+                strncpy(truncateBuffer,CSVREADREF(source,(row+rSrc1),(col+cSrc1)),source->size.maxEntrySize);
+                truncateBuffer[dest->size.maxEntrySize-1] = 0;
+                if(CSVWRITEREF(dest,(rDest+row),(cDest+col),truncateBuffer)!=0){
+                    printf("Error copying %s to row %d column %d\n",truncateBuffer,(rDest+row),(cDest+col));
+                    printf("Source string size: %d Dest size: %d\n",strlen(truncateBuffer),dest->size.maxEntrySize);
+                }
+            }
+            if(CSVWRITEREF(source,(rSrc1+row),(cSrc1+col),buffer)!=0){ //copies source into source
+                char truncateBuffer[dest->size.maxEntrySize];
+                strncpy(truncateBuffer,CSVREADREF(dest,(row+rDest),(col+cDest)),dest->size.maxEntrySize);
+                truncateBuffer[source->size.maxEntrySize-1] = 0;
+                if(CSVWRITEREF(source,(rSrc1+row),(cSrc1+col),truncateBuffer)!=0){
+                    printf("Error copying %s to row %d column %d\n",truncateBuffer,(rSrc1+row),(cSrc1+col));
+                    printf("Source string size: %d Dest size: %d\n",strlen(truncateBuffer),source->size.maxEntrySize);
+                }
+            }
+
+        }
+    }
+    return 0;
+}
+
+int rectangleCopy_s(CSV *restrict source, CSV *restrict dest,
+                    int rSrc1,int cSrc1,
+                    int rSrc2,int cSrc2,
+                    int rDest,int cDest){
+    if(source == dest){
+        printf("Error: source and destination are the same\n");
+        return -1;
+    }
+    if(rSrc1 >= source->size.rCount || cSrc1 >= source->size.cCount || rSrc2 >= source->size.rCount || cSrc2 >= source->size.cCount){
+        printf("Error: Out of bounds source in rectangleCopy\n"); //src is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rSrc1: %d cSrc1: %d rSrc2: %d cSrc2: %d rMax: %d cMax: %d\n",rSrc1,cSrc1,rSrc2,cSrc2,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+    if(rDest >= dest->size.rCount || cDest >= dest->size.cCount){
+        printf("Error: Out of bounds destination in rectangleCopy\n"); //dest is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rDest: %d cDest: %d rMax: %d cMax: %d\n",rDest,cDest,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+
+    char buffer[source->size.maxEntrySize];
+    int height = rSrc2-rSrc1;
+    int width = cSrc2-cSrc1;
+
+    if(rDest+height >= dest->size.rCount || cDest+width >= dest->size.cCount){
+        printf("Error: Out of bounds destination in rectangleCopy\n"); //dest is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rDest: %d cDest: %d rMax: %d cMax: %d\n",rDest,cDest,dest->size.rCount,dest->size.cCount);
+        return -1;
+    }
+
+    for(int row = 0;row<=height;row++){
+        for(int col = 0;col<=width;col++){
+            if(rDest+row >= dest->size.rCount || cDest+col >= dest->size.cCount){
+                break;
+            }
+            if(CSVWRITEREF(dest,(rDest+row),(cDest+col),CSVREADREF(source,(row+rSrc1),(col+cSrc1)))!=0){
+                strncpy(buffer,CSVREADREF(source,(row+rSrc1),(col+cSrc1)),source->size.maxEntrySize);
+                buffer[dest->size.maxEntrySize-1] = 0;
+                if(CSVWRITEREF(dest,(rDest+row),(cDest+col),buffer)!=0){
+                    printf("Error copying %s to row %d column %d\n",buffer,(rDest+row),(cDest+col));
+                    printf("Source string size: %d Dest size: %d\n",strlen(buffer),dest->size.maxEntrySize);
+                }
+            }
+        }
+    }
+    return 0;
+}

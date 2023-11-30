@@ -35,3 +35,18 @@ int rmRowAll(CSV *source,const char map[source->size.rCount]);
 void removeEmptyRows(CSV *source,rmSelector mode);
 
 void mapColumns(CSV *source,char dest[source->size.cCount]);
+
+int rectangleCopy(CSV *source, CSV *dest,
+                  int rSrc1,int cSrc1,
+                  int rSrc2,int cSrc2,
+                  int rDest,int cDest);
+
+int rectangleCopy_s(CSV *restrict source, CSV *restrict dest,
+                    int rSrc1,int cSrc1,
+                    int rSrc2,int cSrc2,
+                    int rDest,int cDest);
+
+int rectangleSwap(CSV *source, CSV *dest,
+                  int rSrc1,int cSrc1,
+                  int rSrc2,int cSrc2,
+                  int rDest,int cDest);

@@ -126,16 +126,17 @@ void editCSV(CSV *source, char info[source->size.maxEntrySize], int rowIndex, in
 
 void displayCSV(CSV *source, int rowStartVal, const CSVSettings settings,FILE *outputStream){
     int entryCharacterCount = (settings.maxEntrySize ? settings.maxEntrySize : source->size.maxEntrySize);
-    fprintf(outputStream," |");
+    fprintf(outputStream,"  |");
     for(int header = 0;header<source->size.cCount;header++){
         fprintf(outputStream,"%*c|",entryCharacterCount,header+65);
     }
     fprintf(outputStream,"%c",settings.rowDelin);
-
+    char buffer[entryCharacterCount+1];
     for(int row = 0;row<source->size.rCount;row++){
-        fprintf(outputStream,"%d|", row + rowStartVal);
+        fprintf(outputStream,"%2d|", row + rowStartVal);
         for(int col = 0;col<source->size.cCount;col++){
-            fprintf(outputStream,"%*s",entryCharacterCount,&source->rows[CSVINDEXREF(source, row, col)]);
+            strncpy(buffer,&source->rows[CSVINDEXREF(source, row, col)],entryCharacterCount);
+            fprintf(outputStream,"%*s",entryCharacterCount,buffer);
 
             if(source->size.cCount - col != 1){
                 fprintf(outputStream,"%c",settings.colDelin);
@@ -203,7 +204,7 @@ void copyCSV(CSV *source, CSV *dest){
         for(int col = 0;col<dest->size.cCount && col < source->size.cCount;col++){
             if(CSVWRITEREF(dest,row,col,CSVREADREF(source,row,col))!=0){
                 strncpy(buffer,CSVREADREF(source,row,col),source->size.maxEntrySize);
-                buffer[source->size.maxEntrySize-1] = 0;
+                buffer[dest->size.maxEntrySize-1] = 0;
                 if(CSVWRITEREF(dest,row,col,buffer)!=0){
                     printf("Error copying %s to row %d column %d\n",buffer,row,col);
                     printf("Source string size: %d Dest size: %d\n",strlen(buffer),dest->size.maxEntrySize);
@@ -213,7 +214,36 @@ void copyCSV(CSV *source, CSV *dest){
     }
 }
 
-void rectangleCopy(CSV *source, CSV *dest,int r);
+void resizeCSV(CSV *source,Dimensions newSize){
+    CSV temp;
+    temp.size = newSize;
+    size_t rowSize = sizeof(char[temp.size.maxEntrySize]) * temp.size.cCount;
+    temp.rows = (char*)calloc(temp.size.rCount,rowSize);
+
+    char buffer[source->size.maxEntrySize];
+    for(int row = 0;row<temp.size.rCount && row < source->size.rCount;row++){
+        for(int col = 0;col<temp.size.cCount && col < source->size.cCount;col++){
+            if(CSVWRITELIT(temp,row,col,CSVREADREF(source,row,col))!=0){
+                strncpy(buffer,CSVREADREF(source,row,col),source->size.maxEntrySize);
+                buffer[temp.size.maxEntrySize-1] = 0;
+                if(CSVWRITELIT(temp,row,col,buffer)!=0){
+                    printf("Error copying %s to row %d column %d\n",buffer,row,col);
+                    printf("Source string size: %d Dest size: %d\n",strlen(buffer),temp.size.maxEntrySize);
+                }
+            }
+        }
+    }
+    free(source->rows);
+    *source = temp;
+
+}
+
+void changeMES(CSV *source,int newMES){
+    Dimensions temp = source->size;
+    temp.maxEntrySize = newMES;
+    resizeCSV(source,temp);
+}
+
 
 CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize){
     CSV new;
@@ -225,9 +255,9 @@ CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize){
     return new;
 }
 
-CSV DMakeBlankCSV(Dimensions *source){
+CSV DMakeBlankCSV(Dimensions source){
     CSV new;
-    new.size = *source;
+    new.size = source;
     size_t rowSize = sizeof(char[new.size.maxEntrySize]) * new.size.cCount;
     new.rows = (char*)calloc(new.size.rCount,rowSize);
     return new;

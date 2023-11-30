@@ -16,33 +16,60 @@ int main() {
     if(file == NULL){
         return 1;
     }
-    CSVSettings custom = DEFAULT_SETTINGS;
-    custom.maxEntrySize = 0;
 
-    CSV names = openCSV(file, custom);
+
+    CSV names = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
 
-    int r, c;
-    indexToCoordinates(&names,CSVINDEXLIT(names,0,3),&r,&c);
-    indexToCoordinates(&names,CSVINDEXLIT(names,2,7),&r,&c);
-    indexToCoordinates(&names,CSVINDEXLIT(names,10,3),&r,&c);
-    indexToCoordinates(&names,CSVINDEXLIT(names,8,5),&r,&c);
+    CSVSettings custom = DEFAULT_SETTINGS;
+    custom.maxEntrySize = 8;
+    custom.colDelin = '|';
 
 
+    Dimensions size = {5,10,21};
+    CSV new = DMakeBlankCSV(size);
 
-    CSV new = makeBlankCSV(5,10,21);
-    copyCSV(&names,&new);
+    rectangleCopy(&names,&new,1,1,3,4,1,1);
 
-    //displayCSV(&names,0,custom, stdout);
+    displayCSV(&names,0,custom, stdout);
     printf("-------------------\n");
-    //displayCSV(&new,0,custom, stdout);
 
-    saveCSV(&names,filename2,custom);
+    displayCSV(&new,0,custom, stdout);
+    printf("-------------------\n");
+
+    rectangleCopy(&new,&new,1,1,3,4,2,6);
+    displayCSV(&new,0,custom, stdout);
+    printf("-------------------\n");
+
+    rectangleSwap(&new,&new,1,1,3,3,1,7);
+    displayCSV(&new,0,custom, stdout);
+    printf("-------------------\n");
+
+    displayCSV(&names,0,custom, stdout);
+    printf("-------------------\n");
+
+    rectangleSwap(&names,&names,1,0,1,4,2,0);
+    displayCSV(&names,0,custom, stdout);
+    printf("-------------------\n");
+/*
+    for(int i = 0;i<9;i++){
+        size.rCount++;
+        size.cCount--;
+        size.maxEntrySize -= 2;
+        resizeCSV(&new,size);
+        displayCSV(&new,0,custom, stdout);
+        printf("-------------------\n");
+
+    }
+*/
+
+
+    //saveCSV(&names,filename2,custom);
 
     closeCSV(&names);
 
-
-
+    closeCSV(&new);
+    scanf("%c",filename);
 
     return 0;
 }

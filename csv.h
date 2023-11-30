@@ -66,11 +66,15 @@ void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize,
 
 CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize);
 
-CSV DMakeBlankCSV(Dimensions *source);
+CSV DMakeBlankCSV(Dimensions source);
 
 int indexToCoordinates(CSV *source, int index, int *rowDest, int *colDest);
 
 void copyCSV(CSV *source, CSV *dest);
+
+void resizeCSV(CSV *source,Dimensions newSize);
+
+void changeMES(CSV *source,int newMES);
 
 CSV easyOpenCSV(char *filename);
 
