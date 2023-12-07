@@ -2,6 +2,7 @@
 A library with functions for managing CSV files in C.
 
 Ignore the Cmake stuff, it was easier just to commit the entire directory.
+
 main.c and the txt files are just for "testing" functions, not essential to anything.
 
 csv.h/csv.c - Declares Dimensions and CSV structs. Most of the essential functions are here.
