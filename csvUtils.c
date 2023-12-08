@@ -523,3 +523,8 @@ int rectangleCopy_s(CSV *restrict source, CSV *restrict dest,
     }
     return 0;
 }
+
+void sortedRows(CSV *source, SortMode mode){
+
+
+}

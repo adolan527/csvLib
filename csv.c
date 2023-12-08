@@ -5,9 +5,9 @@
 #include "csv.h"
 #endif
 
-const CSVSettings DEFAULT_SETTINGS = {',','\n',8};
+const CSVSettings DEFAULT_SETTINGS = {',','\n',0,0};
 
-Dimensions getSize(FILE *source,const CSVSettings settings){
+Dimensions getSize(FILE *source,const CSVSettings settings, int MESguess){
     Dimensions retVal;
     retVal.rCount = 1;
     retVal.cCount = 1;
@@ -38,30 +38,22 @@ Dimensions getSize(FILE *source,const CSVSettings settings){
     }
     fseek(source,0,SEEK_SET);
 
-    if(settings.maxEntrySize<largestESC){
-        /*
-        //if an invalid size is entered, it rounds up to the nearest power of 2
-        for(int i = 0; i<11;i++){
-            if(largestESC < pow(2,i)){
-                retVal.maxEntrySize = (int)pow(2,i);
-                break;
-            }
-        }
-         */ //Removed because that seemed weird
+    if(MESguess < largestESC){
         retVal.maxEntrySize = largestESC + 2; //2 characters for padding.
     }
     else{
-        retVal.maxEntrySize = settings.maxEntrySize;
+        retVal.maxEntrySize = MESguess;
     }
 
     return retVal;
 }
 
 
-CSV openCSV(FILE *source, CSVSettings settings){
+CSV openCSV(FILE *source, CSVSettings settings, int MESguess){
     CSV data;
+    data.settings = settings;
     CSV *dataPtr = &data;
-    data.size = getSize(source,settings);
+    data.size = getSize(source, settings, MESguess);
     size_t rowSize = sizeof(char[data.size.maxEntrySize]) * data.size.cCount;
     data.rows = (char*)calloc(data.size.rCount,rowSize);
     if(data.rows == NULL){
@@ -127,25 +119,55 @@ void editCSV(CSV *source, char info[source->size.maxEntrySize], int rowIndex, in
 }
  */
 
-void displayCSV(CSV *source, int rowStartVal, const CSVSettings settings,FILE *outputStream){
-    int entryCharacterCount = (settings.maxEntrySize ? settings.maxEntrySize : source->size.maxEntrySize);
-    fprintf(outputStream,"  |");
-    for(int header = 0;header<source->size.cCount;header++){
-        fprintf(outputStream,"%*c|",entryCharacterCount,header+65);
-    }
-    fprintf(outputStream,"%c",settings.rowDelin);
+void displayCSV(CSV *source, int rowStartVal, int displayedCharPerEntry, FILE *outputStream){
+    int entryCharacterCount = (displayedCharPerEntry ? displayedCharPerEntry : source->size.maxEntrySize);
     char buffer[entryCharacterCount+1];
-    for(int row = 0;row<source->size.rCount;row++){
-        fprintf(outputStream,"%2d|", row + rowStartVal);
-        for(int col = 0;col<source->size.cCount;col++){
+
+    if(source->settings.rowHeader == 0){
+        fprintf(outputStream,"  |");
+    }
+    else{
+        if(source->settings.colHeader==1){
+            strncpy(buffer, CSVREADREF(source,0,0),entryCharacterCount);
+            buffer[entryCharacterCount] = 0;
+            fprintf(outputStream,"%*s|",entryCharacterCount,buffer);
+        }
+        else{
+            fprintf(outputStream,"%*c|",entryCharacterCount,' ');
+        }
+    }
+
+    for(int header = source->settings.rowHeader;header<source->size.cCount;header++){
+        if(source->settings.colHeader== 0){
+            fprintf(outputStream,"%*c|",entryCharacterCount,header+65);
+        }
+        else{
+            strncpy(buffer, CSVREADREF(source,0,header),entryCharacterCount);
+            buffer[entryCharacterCount] = 0;
+            fprintf(outputStream,"%*s|",entryCharacterCount, buffer);
+        }
+    }
+
+    fprintf(outputStream,"%c",source->settings.rowDelin);
+    for(int row = source->settings.colHeader;row<source->size.rCount;row++){
+        if(source->settings.rowHeader==0){
+            fprintf(outputStream,"%2d|", row + rowStartVal);
+        }
+        else{
+            strncpy(buffer, CSVREADREF(source,row,0),entryCharacterCount);
+            buffer[entryCharacterCount] = 0;
+            fprintf(outputStream,"%*s|", entryCharacterCount,buffer);
+        }
+        for(int col = source->settings.rowHeader;col<source->size.cCount;col++){
             strncpy(buffer,&source->rows[CSVINDEXREF(source, row, col)],entryCharacterCount);
+            buffer[entryCharacterCount] = 0;
             fprintf(outputStream,"%*s",entryCharacterCount,buffer);
 
             if(source->size.cCount - col != 1){
-                fprintf(outputStream,"%c",settings.colDelin);
+                fprintf(outputStream,"%c",source->settings.colDelin);
             }
         }
-        fprintf(outputStream,"%c",settings.rowDelin);
+        fprintf(outputStream,"%c",source->settings.rowDelin);
     }
 
 }
@@ -173,6 +195,36 @@ int saveCSV(CSV *source, char *filename,const CSVSettings settings){
     return 0;
 }
 
+char * indexByHeader(CSV *source, char *rKey, char *cKey){
+
+    int row = -1;
+    int col = -1;
+
+    if(source->settings.rowHeader == 0){
+        row = atoi(rKey);
+    }
+    else{
+        for(int i = 0;i < source->size.rCount; i++){
+            if(strcmp(rKey, CSVREADREF(source,i,0))==0){
+                row = i;
+            }
+        }
+    }
+
+    if(source->settings.colHeader == 0){
+        col = atoi(cKey);
+    }
+    else{
+        for(int i = 0;i < source->size.cCount; i++){
+            if(strcmp(cKey, CSVREADREF(source,0,i))==0){
+                col = i;
+            }
+        }
+    }
+    if(row == -1 || col == -1) return NULL;
+
+    return CSVREADREF(source,row,col);
+}
 
 void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize, int rowIndex, int colIndex, char rc){
     if(array == NULL){
@@ -250,7 +302,6 @@ void changeMES(CSV *source,int newMES){
     resizeCSV(source,temp);
 }
 
-
 CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize){
     CSV new;
     new.size.cCount = cCount;
@@ -294,15 +345,13 @@ int indexToCoordinates(CSV *source, int index, int *rowDest, int *colDest){
 
 }
 
-
-
 void closeCSV(CSV *source){
     free(source->rows);
 }
 
 CSV easyOpenCSV(char *filename){
     FILE *easyFile = fopen(filename,"r+");
-    CSV easyCSV = openCSV(easyFile, DEFAULT_SETTINGS);
+    CSV easyCSV = openCSV(easyFile, DEFAULT_SETTINGS,0);
     easyCSV.filename = filename;
     fclose(easyFile);
     return easyCSV;

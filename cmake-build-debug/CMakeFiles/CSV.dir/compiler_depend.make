@@ -10,6 +10,7 @@ CMakeFiles/CSV.dir/csv.c.obj: C:/Users/Aweso/CLionProjects/csvLib/csv.c \
   C:/msys64/mingw64/include/corecrt_stdio_config.h \
   C:/msys64/mingw64/include/corecrt_wstdlib.h \
   C:/msys64/mingw64/include/crtdefs.h \
+  C:/msys64/mingw64/include/ctype.h \
   C:/msys64/mingw64/include/errno.h \
   C:/msys64/mingw64/include/limits.h \
   C:/msys64/mingw64/include/malloc.h \
@@ -37,6 +38,7 @@ CMakeFiles/CSV.dir/csvUtils.c.obj: C:/Users/Aweso/CLionProjects/csvLib/csvUtils.
   C:/msys64/mingw64/include/corecrt_stdio_config.h \
   C:/msys64/mingw64/include/corecrt_wstdlib.h \
   C:/msys64/mingw64/include/crtdefs.h \
+  C:/msys64/mingw64/include/ctype.h \
   C:/msys64/mingw64/include/errno.h \
   C:/msys64/mingw64/include/limits.h \
   C:/msys64/mingw64/include/malloc.h \
@@ -65,6 +67,7 @@ CMakeFiles/CSV.dir/main.c.obj: C:/Users/Aweso/CLionProjects/csvLib/main.c \
   C:/msys64/mingw64/include/corecrt_stdio_config.h \
   C:/msys64/mingw64/include/corecrt_wstdlib.h \
   C:/msys64/mingw64/include/crtdefs.h \
+  C:/msys64/mingw64/include/ctype.h \
   C:/msys64/mingw64/include/errno.h \
   C:/msys64/mingw64/include/limits.h \
   C:/msys64/mingw64/include/malloc.h \
@@ -93,6 +96,7 @@ CMakeFiles/CSV.dir/testing.c.obj: C:/Users/Aweso/CLionProjects/csvLib/testing.c 
   C:/msys64/mingw64/include/corecrt_stdio_config.h \
   C:/msys64/mingw64/include/corecrt_wstdlib.h \
   C:/msys64/mingw64/include/crtdefs.h \
+  C:/msys64/mingw64/include/ctype.h \
   C:/msys64/mingw64/include/errno.h \
   C:/msys64/mingw64/include/limits.h \
   C:/msys64/mingw64/include/malloc.h \
@@ -130,6 +134,8 @@ C:/msys64/mingw64/include/corecrt.h:
 C:/msys64/mingw64/include/corecrt_stdio_config.h:
 
 C:/msys64/mingw64/include/crtdefs.h:
+
+C:/msys64/mingw64/include/ctype.h:
 
 C:/Users/Aweso/CLionProjects/csvLib/main.c:
 

@@ -21,6 +21,15 @@ typedef enum{
 
 }rmSelector;
 
+
+typedef enum{
+    NumAscending,
+    NumDescending,
+    Alphabet,
+    RevAlphabet,
+
+}SortMode;
+
 void removeEmpty(CSV *source, rmSelector mode, char rc);
 
 void mapRows(CSV *source,char dest[source->size.rCount]);

@@ -14,20 +14,22 @@ int main() {
     char filename[] = "C:\\Users\\Aweso\\Downloads\\Project 3 Peer Review - Sheet1.csv";
     char filename2[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\names.csv";
     char filename3[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\stuff.csv";
-    FILE *file = fopen(filename3,"r");
+    FILE *file = fopen(filename2,"r");
 
     if(file == NULL){
         return 1;
     }
 
     
-    CSV names = openCSV(file, DEFAULT_SETTINGS);
+    CSV names = openCSV(file, DEFAULT_SETTINGS,0);
     fclose(file);
 
-    displayCSV(&names,0,DEFAULT_SETTINGS,stdout);
-    printf("\n\n");
-    removeEmpty(&names,All,0);
-    displayCSV(&names,0,DEFAULT_SETTINGS,stdout);
+    names.settings.colHeader = 1;
+    names.settings.rowHeader = 1;
+
+    displayCSV(&names,0,12,stdout);
+
+    printf("1 Job - %s", indexByHeader(&names,"joe","Salary"));
 
 
     //saveCSV(&names,filename2,custom);

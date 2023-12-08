@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
 #ifndef CSV_CSV_H
 #define CSV_CSV_H
 
@@ -16,20 +17,23 @@ typedef struct{
     int maxEntrySize;
 }Dimensions;
 
+typedef struct{
+    char colDelin;
+    char rowDelin;
+    int colHeader;
+    int rowHeader;
+
+}CSVSettings;
 
 typedef struct{
     Dimensions size;
+    CSVSettings settings;
     char *filename;
     char *rows;
 
 }CSV;
 
-typedef struct{
-    char colDelin;
-    char rowDelin;
-    int maxEntrySize;
 
-}CSVSettings;
 
 extern const CSVSettings DEFAULT_SETTINGS;
 
@@ -50,21 +54,23 @@ extern const CSVSettings DEFAULT_SETTINGS;
 #define CSVWRITELIT(_csv,_row,_col,_srcPtr) strncpy_s(&_csv.rows[CSVINDEXLIT(_csv,_row,_col)], _csv.size.maxEntrySize,_srcPtr, _csv.size.maxEntrySize)
 
 
-CSV openCSV(FILE *source, const CSVSettings settings);
+CSV openCSV(FILE *source, CSVSettings settings, int MESguess);
 
 void closeCSV(CSV *subject);
 
-void displayCSV(CSV *source, int rowStartVal, CSVSettings settings,FILE *outputStream);
+void displayCSV(CSV *source, int rowStartVal, int displayedCharPerEntry, FILE *outputStream);
 
 int saveCSV(CSV *source, char *filename, CSVSettings settings);
 
-Dimensions getSize(FILE *source,CSVSettings settings);
+Dimensions getSize(FILE *source,CSVSettings settings, int MESguess);
 
 void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize, int rowIndex, int colIndex, char rc);
 
 CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize);
 
 CSV DMakeBlankCSV(Dimensions source);
+
+char * indexByHeader(CSV *source, char *rKey, char *cKey);
 
 int indexToCoordinates(CSV *source, int index, int *rowDest, int *colDest);
 
