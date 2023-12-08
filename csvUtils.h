@@ -21,26 +21,11 @@ typedef enum{
 
 }rmSelector;
 
+void removeEmpty(CSV *source, rmSelector mode, char rc);
 
 void mapRows(CSV *source,char dest[source->size.rCount]);
 
-int rmRowBefore(CSV *source,const char map[source->size.rCount]);
-
-int rmRowInside(CSV *source,const char map[source->size.rCount]);
-
-int rmRowAfter(CSV *source,const char map[source->size.rCount]);
-
-int rmRowAll(CSV *source,const char map[source->size.rCount]);
-
 void removeEmptyRows(CSV *source,rmSelector mode);
-
-int rmColAll(CSV *source,const char map[source->size.cCount]);
-
-int rmColBefore(CSV *source,const char map[source->size.cCount]);
-
-int rmColInside(CSV *source,const char map[source->size.cCount]);
-
-int rmColAfter(CSV *source,const char map[source->size.cCount]);
 
 void removeEmptyColumns(CSV *source, rmSelector mode);
 

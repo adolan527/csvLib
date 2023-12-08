@@ -6,6 +6,38 @@
 #include "csvUtils.h"
 #endif
 
+int rmRowBefore(CSV *source,const char map[source->size.rCount]);
+
+int rmRowInside(CSV *source,const char map[source->size.rCount]);
+
+int rmRowAfter(CSV *source,const char map[source->size.rCount]);
+
+int rmRowAll(CSV *source,const char map[source->size.rCount]);
+
+int rmColAll(CSV *source,const char map[source->size.cCount]);
+
+int rmColBefore(CSV *source,const char map[source->size.cCount]);
+
+int rmColInside(CSV *source,const char map[source->size.cCount]);
+
+int rmColAfter(CSV *source,const char map[source->size.cCount]);
+
+
+void removeEmpty(CSV *source, rmSelector mode, char rc){
+    if(rc=='r'){
+        removeEmptyRows(source,mode);
+        return;
+    }
+    if(rc=='c'){
+        removeEmptyColumns(source,mode);
+        return;
+    }
+    else{
+        removeEmptyRows(source,mode);
+        removeEmptyColumns(source,mode);
+        return;
+    }
+}
 
 void removeEmptyRows(CSV *source,rmSelector mode){
     char dataMap[source->size.rCount];

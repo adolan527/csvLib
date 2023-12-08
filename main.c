@@ -26,8 +26,7 @@ int main() {
 
     displayCSV(&names,0,DEFAULT_SETTINGS,stdout);
     printf("\n\n");
-    //removeEmptyRows(&names,Inside);
-    removeEmptyColumns(&names,Inside);
+    removeEmpty(&names,All,0);
     displayCSV(&names,0,DEFAULT_SETTINGS,stdout);
 
 
