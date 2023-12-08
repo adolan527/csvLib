@@ -34,6 +34,16 @@ int rmRowAll(CSV *source,const char map[source->size.rCount]);
 
 void removeEmptyRows(CSV *source,rmSelector mode);
 
+int rmColAll(CSV *source,const char map[source->size.cCount]);
+
+int rmColBefore(CSV *source,const char map[source->size.cCount]);
+
+int rmColInside(CSV *source,const char map[source->size.cCount]);
+
+int rmColAfter(CSV *source,const char map[source->size.cCount]);
+
+void removeEmptyColumns(CSV *source, rmSelector mode);
+
 void mapColumns(CSV *source,char dest[source->size.cCount]);
 
 int rectangleCopy(CSV *source, CSV *dest,

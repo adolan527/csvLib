@@ -15,7 +15,7 @@ Dimensions getSize(FILE *source,const CSVSettings settings){
     int entrySizeCounter = 0;
     int largestESC = 0;
 
-    char input = fgetc(source);
+    int input = fgetc(source);
     while(input != EOF){
         entrySizeCounter++;
         if (input == '\"') {
@@ -70,7 +70,7 @@ CSV openCSV(FILE *source, CSVSettings settings){
     }
     //indexing
     //MES * (rowIndex * cCount + colIndex) + entryIndex
-    char input = fgetc(source);
+    char input = (char)fgetc(source);
     int entryIndex = 0;
     int rowIndex = 0;
     int colIndex = 0;
@@ -105,11 +105,13 @@ CSV openCSV(FILE *source, CSVSettings settings){
             entryIndex++;
         }
 
-        input = fgetc(source);
+        input = (char)fgetc(source);
     }
     return data;
-};
-
+}
+/*
+ * These functions are entirely obsolete with the use of macros, but are being left here for now.
+ *
 void readCSV(CSV *source, char destination[source->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex){
     if(characterIndex > source->size.maxEntrySize - 1){
         characterIndex=0;
@@ -123,6 +125,7 @@ void editCSV(CSV *source, char info[source->size.maxEntrySize], int rowIndex, in
     }
     strncpy(&source->rows[source->size.maxEntrySize*(rowIndex * source->size.cCount + colIndex) + characterIndex], info, source->size.maxEntrySize);
 }
+ */
 
 void displayCSV(CSV *source, int rowStartVal, const CSVSettings settings,FILE *outputStream){
     int entryCharacterCount = (settings.maxEntrySize ? settings.maxEntrySize : source->size.maxEntrySize);
@@ -182,7 +185,7 @@ void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize,
         for(int i = 0; i < arraySize; i++){
             array[i*arrayElementSize+dest->size.maxEntrySize-1] = 0;
             if(CSVWRITEREF(dest,rowIndex,(colIndex+i),&array[i*arrayElementSize])!=0){
-                printf("\nError %d iteration.\n Copying %s to %s.\n",i,&array[i*arrayElementSize],(CSVREADREF(dest,rowIndex,colIndex)));
+                printf("\nError %d iteration.\n Copying %s to %s.\n",i,&array[i*arrayElementSize],(CSVREADREF(dest,rowIndex,(colIndex+i))));
             }
 
         }
@@ -193,7 +196,10 @@ void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize,
         }
 
         for(int i = 0; i < arraySize; i++){
-            editCSV(dest,&array[i*arrayElementSize],rowIndex+i,colIndex,0);
+            array[i*arrayElementSize+dest->size.maxEntrySize-1] = 0;
+            if(CSVWRITEREF(dest,(rowIndex+i),colIndex,&array[i*arrayElementSize])!=0){
+                printf("\nError %d iteration.\n Copying %s to %s.\n",i,&array[i*arrayElementSize],(CSVREADREF(dest,(rowIndex+i),colIndex)));
+            }
         }
     }
 }
@@ -207,7 +213,7 @@ void copyCSV(CSV *source, CSV *dest){
                 buffer[dest->size.maxEntrySize-1] = 0;
                 if(CSVWRITEREF(dest,row,col,buffer)!=0){
                     printf("Error copying %s to row %d column %d\n",buffer,row,col);
-                    printf("Source string size: %d Dest size: %d\n",strlen(buffer),dest->size.maxEntrySize);
+                    printf("Source string size: %llu Dest size: %d\n",strlen(buffer),dest->size.maxEntrySize);
                 }
             }
         }
@@ -228,7 +234,7 @@ void resizeCSV(CSV *source,Dimensions newSize){
                 buffer[temp.size.maxEntrySize-1] = 0;
                 if(CSVWRITELIT(temp,row,col,buffer)!=0){
                     printf("Error copying %s to row %d column %d\n",buffer,row,col);
-                    printf("Source string size: %d Dest size: %d\n",strlen(buffer),temp.size.maxEntrySize);
+                    printf("Source string size: %llu Dest size: %d\n",strlen(buffer),temp.size.maxEntrySize);
                 }
             }
         }

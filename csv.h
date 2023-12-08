@@ -16,6 +16,7 @@ typedef struct{
     int maxEntrySize;
 }Dimensions;
 
+
 typedef struct{
     Dimensions size;
     char *filename;
@@ -27,6 +28,7 @@ typedef struct{
     char colDelin;
     char rowDelin;
     int maxEntrySize;
+
 }CSVSettings;
 
 extern const CSVSettings DEFAULT_SETTINGS;
@@ -54,13 +56,9 @@ void closeCSV(CSV *subject);
 
 void displayCSV(CSV *source, int rowStartVal, CSVSettings settings,FILE *outputStream);
 
-void editCSV(CSV *subject, char info[subject->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex);
-
 int saveCSV(CSV *source, char *filename, CSVSettings settings);
 
 Dimensions getSize(FILE *source,CSVSettings settings);
-
-void readCSV(CSV *source, char destination[source->size.maxEntrySize], int rowIndex, int colIndex, int characterIndex);
 
 void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize, int rowIndex, int colIndex, char rc);
 
