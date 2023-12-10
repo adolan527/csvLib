@@ -15,7 +15,7 @@ typedef enum{
     After = 4,
     All = 9, // Equal to B + I + A
     BeforeInside = 5, //Equal to before + inside
-    Outside = 6, //Equal to before + after
+    BeforeAfter = 6, //Equal to before + after
     AfterInside = 7 //Equal to After + inside
 
 

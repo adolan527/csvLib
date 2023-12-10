@@ -54,15 +54,15 @@ extern const CSVSettings DEFAULT_SETTINGS;
 #define CSVWRITELIT(_csv,_row,_col,_srcPtr) strncpy_s(&_csv.rows[CSVINDEXLIT(_csv,_row,_col)], _csv.size.maxEntrySize,_srcPtr, _csv.size.maxEntrySize)
 
 
-CSV openCSV(FILE *source, CSVSettings settings, int MESguess);
+CSV openCSV(FILE *source, CSVSettings settings);
 
 void closeCSV(CSV *subject);
 
-void displayCSV(CSV *source, int rowStartVal, int displayedCharPerEntry, FILE *outputStream);
+void displayCSV(CSV *source, int displayedCharPerEntry, FILE *outputStream);
 
-int saveCSV(CSV *source, char *filename, CSVSettings settings);
+int saveCSV(CSV *source, char *filename);
 
-Dimensions getSize(FILE *source,CSVSettings settings, int MESguess);
+Dimensions getSize(FILE *source,CSVSettings settings);
 
 void arrayToCSV(CSV *dest, char array[], int arraySize, size_t arrayElementSize, int rowIndex, int colIndex, char rc);
 

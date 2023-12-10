@@ -1,6 +1,6 @@
 Name,Age,Job,rank,Salary
-joe,905,manager,private,99
-Bob,13,worker,general,100
-Jimmy,4,thief,Elite,"Unpaid"
-,9,intern,corporal,-1
-"Charles, the Great",1776,King,Grand Vizier,"1,000,000,000"
+Joe,21,manager,private,99
+Bob,34,worker,general,100
+Jimmy,4,thief,Elite,Unpaid
+Derrick,9,intern,corporal,-1
+"Charles, the Great",80,King,Grand Marshall,"1,000,000,000"

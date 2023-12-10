@@ -11,11 +11,11 @@ int (*sortModes[4])(char*,char*) = {&numIncreasing, &numDecreasing, &alphaIncrea
 
 int numIncreasing(char *op1, char *op2){
     char *buffer;
-    long long num1 = strtoll(op1,&buffer,10);
+    long double num1 = strtold(op1,&buffer);
     if(buffer==op1){
         return -1;
     }
-    long long num2 = strtoll(op2,&buffer,10);
+    long double num2 = strtold(op2,&buffer);
     if(buffer==op2){
         return -1;
     }
@@ -112,7 +112,7 @@ void removeEmptyRows(CSV *source,rmSelector mode){
             rmRowInside(source, dataMap);
             return;
         }
-        case Outside:{
+        case BeforeAfter:{
             if(rmRowBefore(source, dataMap) == 0){
                 mapRows(source, dataMap);
             }
@@ -158,7 +158,7 @@ void removeEmptyColumns(CSV *source, rmSelector mode){
             rmColInside(source, dataMap);
             return;
         }
-        case Outside:{
+        case BeforeAfter:{
             if(rmColBefore(source, dataMap) == 0){
                 mapColumns(source, dataMap);
             }
@@ -535,7 +535,7 @@ int rectangleCopy_s(CSV *restrict source, CSV *restrict dest,
         return -1;
     }
     if(rSrc1 >= source->size.rCount || cSrc1 >= source->size.cCount || rSrc2 >= source->size.rCount || cSrc2 >= source->size.cCount){
-        printf("Error: Out of bounds source in rectangleCopy\n"); //src is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("Error: Out of bounds source in rectangleCopy_s\n"); //src is an index. Therefore the max is rCount-1 or cCount -1.
         printf("rSrc1: %d cSrc1: %d rSrc2: %d cSrc2: %d rMax: %d cMax: %d\n",rSrc1,cSrc1,rSrc2,cSrc2,dest->size.rCount,dest->size.cCount);
         return -1;
     }
@@ -550,8 +550,8 @@ int rectangleCopy_s(CSV *restrict source, CSV *restrict dest,
     int width = cSrc2-cSrc1;
 
     if(rDest+height >= dest->size.rCount || cDest+width >= dest->size.cCount){
-        printf("Error: Out of bounds destination in rectangleCopy\n"); //dest is an index. Therefore the max is rCount-1 or cCount -1.
-        printf("rDest: %d cDest: %d rMax: %d cMax: %d\n",rDest,cDest,dest->size.rCount,dest->size.cCount);
+        printf("Error: Out of bounds destination in rectangleCopy_s\n"); //dest is an index. Therefore the max is rCount-1 or cCount -1.
+        printf("rDest: %d cDest: %d height: %d width: %d rMax: %d cMax: %d\n",rDest,cDest,height,width,dest->size.rCount,dest->size.cCount);
         return -1;
     }
 

@@ -14,29 +14,38 @@ int main() {
     char filename[] = "C:\\Users\\Aweso\\Downloads\\Project 3 Peer Review - Sheet1.csv";
     char filename2[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\names.csv";
     char filename3[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\stuff.csv";
-    FILE *file = fopen(filename2,"r");
 
+
+    FILE *file = fopen(filename3,"r");
     if(file == NULL){
         return 1;
     }
-
-    
-    CSV names = openCSV(file, DEFAULT_SETTINGS,0);
+    CSV letters = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
 
-    names.settings.colHeader = 1;
-    names.settings.rowHeader = 1;
+    CSV blank = makeBlankCSV(5,5,10);
 
-    displayCSV(&names,0,12,stdout);
-
-    sortRows(&names,sortModes[DecAlpha], indexOfHeaderCol(&names,"Job"));
+    printf("Letters:\n");
+    displayCSV(&letters, 0, stdout);
     printf("\n");
-    displayCSV(&names,0,12,stdout);
 
+    rectangleCopy_s(&letters, &blank, 2, 2, 5, 5, 1, 1);
 
-    //saveCSV(&names,filename2,custom);
+    printf("Letters:\n");
+    displayCSV(&letters, 0, stdout);
+    printf("Blank:\n");
+    displayCSV(&blank, 0, stdout);
 
-    closeCSV(&names);
+    rectangleSwap(&letters, &blank,0,0,4,1,0,0);
+
+    printf("Letters:\n");
+    displayCSV(&letters, 0, stdout);
+    printf("Blank:\n");
+    displayCSV(&blank, 0, stdout);
+
+    closeCSV(&letters);
+    closeCSV(&blank);
+
 
     return 0;
 }
