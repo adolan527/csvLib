@@ -58,7 +58,7 @@ CSV openCSV(FILE *source, CSVSettings settings);
 
 void closeCSV(CSV *subject);
 
-void displayCSV(CSV *source, int displayedCharPerEntry, FILE *outputStream);
+void displayCSV(CSV *source, int displayedCharPerEntry, int colStart, int colEnd, FILE *outputStream);
 
 int saveCSV(CSV *source, char *filename);
 

@@ -11,10 +11,13 @@ int (*sortModes[4])(char*,char*) = {&numIncreasing, &numDecreasing, &alphaIncrea
 
 int numIncreasing(char *op1, char *op2){
     char *buffer;
+
     long double num1 = strtold(op1,&buffer);
+
     if(buffer==op1){
         return -1;
     }
+
     long double num2 = strtold(op2,&buffer);
     if(buffer==op2){
         return -1;
@@ -27,11 +30,12 @@ int numIncreasing(char *op1, char *op2){
 
 int numDecreasing(char *op1, char *op2){
     char *buffer;
-    long long num1 = strtoll(op1,&buffer,10);
+    long double num1 = strtold(op1,&buffer);
     if(buffer==op1){
         return -1;
     }
-    long long num2 = strtoll(op2,&buffer,10);
+
+    long double num2 = strtold(op2,&buffer);
     if(buffer==op2){
         return -1;
     }
@@ -581,10 +585,14 @@ void sortRows(CSV *source, int (*sortAlgo)(char*, char*), int sortedColumn){
 
     for(int iterator = source->settings.colHeader;iterator<source->size.rCount;iterator++){
         char base[source->size.maxEntrySize];
-        strncpy(base,CSVREADREF(source,iterator,sortedColumn),source->size.maxEntrySize);
+
+        char *ptr = CSVREADREF(source,iterator,sortedColumn);
+
+        strncpy(base,ptr,source->size.maxEntrySize);
 
         for(int row = iterator;row<source->size.rCount;row++){
-            int sortResult = sortAlgo(base,CSVREADREF(source,row,sortedColumn));
+            char *comp =CSVREADREF(source,row,sortedColumn);
+            int sortResult = sortAlgo(base,comp);
             if(sortResult==1){
                 memcpy(rowBuffer, CSVREADREF(source,row,0),rowSize);
                 memcpy(CSVREADREF(source,row,0),CSVREADREF(source,iterator,0),rowSize);

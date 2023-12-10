@@ -11,40 +11,34 @@
 
 
 int main() {
-    char filename[] = "C:\\Users\\Aweso\\Downloads\\Project 3 Peer Review - Sheet1.csv";
+    char filename[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\frcData.csv";
     char filename2[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\names.csv";
     char filename3[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\stuff.csv";
 
 
-    FILE *file = fopen(filename3,"r");
+    FILE *file = fopen(filename,"r");
     if(file == NULL){
         return 1;
     }
-    CSV letters = openCSV(file, DEFAULT_SETTINGS);
+    CSV frc = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
+    frc.settings.colHeader=1;
+    frc.settings.rowHeader=1;
 
-    CSV blank = makeBlankCSV(5,5,10);
+    displayCSV(&frc,5,0,0,stdout);
+    int index=indexOfHeaderCol(&frc,"Defense rank");
+    if(index!=0){
+        sortRows(&frc,sortModes[DecNum],index);
+        printf("\n\n");
+        displayCSV(&frc,16,index,0,stdout);
+    }
+    else{
+        printf("could not find that header");
+    }
 
-    printf("Letters:\n");
-    displayCSV(&letters, 0, stdout);
-    printf("\n");
 
-    rectangleCopy_s(&letters, &blank, 2, 2, 5, 5, 1, 1);
 
-    printf("Letters:\n");
-    displayCSV(&letters, 0, stdout);
-    printf("Blank:\n");
-    displayCSV(&blank, 0, stdout);
-
-    rectangleSwap(&letters, &blank,0,0,4,1,0,0);
-
-    printf("Letters:\n");
-    displayCSV(&letters, 0, stdout);
-    printf("Blank:\n");
-    displayCSV(&blank, 0, stdout);
-
-    closeCSV(&letters);
-    closeCSV(&blank);
+    closeCSV(&frc);
 
 
     return 0;

@@ -115,8 +115,9 @@ void editCSV(CSV *source, char info[source->size.maxEntrySize], int rowIndex, in
 }
  */
 
-void displayCSV(CSV *source, int displayedCharPerEntry, FILE *outputStream){
-
+void displayCSV(CSV *source, int displayedCharPerEntry, int colStart, int colEnd, FILE *outputStream){
+    int endColumn = (colEnd ? colEnd : source->size.cCount);
+    colStart -= source->settings.rowHeader;
     int entryCharacterCount = (displayedCharPerEntry ? displayedCharPerEntry : source->size.maxEntrySize);
     char buffer[entryCharacterCount+1];
 
@@ -134,7 +135,7 @@ void displayCSV(CSV *source, int displayedCharPerEntry, FILE *outputStream){
         }
     }
 
-    for(int header = source->settings.rowHeader;header<source->size.cCount;header++){
+    for(int header = source->settings.rowHeader + colStart;header<endColumn;header++){
         if(source->settings.colHeader== 0){
             fprintf(outputStream,"%*c|",entryCharacterCount,header+65);
         }
@@ -155,14 +156,14 @@ void displayCSV(CSV *source, int displayedCharPerEntry, FILE *outputStream){
             buffer[entryCharacterCount] = 0;
             fprintf(outputStream,"%*s|", entryCharacterCount,buffer);
         }
-        for(int col = source->settings.rowHeader;col<source->size.cCount;col++){
+        for(int col = source->settings.rowHeader + colStart;col<endColumn;col++){
 
 
             strncpy(buffer,&source->rows[CSVINDEXREF(source, row, col)],entryCharacterCount);
             buffer[entryCharacterCount] = 0;
             fprintf(outputStream,"%*s",entryCharacterCount,buffer);
 
-            if(source->size.cCount - col != 1){
+            if(endColumn - col != 1){
                 fprintf(outputStream,"%c",source->settings.colDelin);
             }
 
