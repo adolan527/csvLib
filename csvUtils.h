@@ -23,12 +23,30 @@ typedef enum{
 
 
 typedef enum{
-    NumAscending,
-    NumDescending,
-    Alphabet,
-    RevAlphabet,
+    IncNum,
+    DecNum,
+    IncAlpha,
+    DecAlpha,
 
 }SortMode;
+
+
+//These functions evaluate two strings. If the one on the left is TRUE, then return 0.
+//Else, return 1.
+//Error returns -1.
+//Ex: numAscend("12","7") would return 1. numIncreasing("93","100") would return 0.
+
+extern int (*sortModes[4])(char*,char*);
+
+int numIncreasing(char *op1, char *op2);
+
+int numDecreasing(char *op1, char *op2);
+
+int alphaIncreasing(char *op1, char *op2);
+
+int alphaDecreasing(char *op1, char *op2);
+
+void sortRows(CSV *source, int (*sortAlgo)(char*, char*), int sortedColumn);
 
 void removeEmpty(CSV *source, rmSelector mode, char rc);
 

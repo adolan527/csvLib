@@ -195,6 +195,26 @@ int saveCSV(CSV *source, char *filename,const CSVSettings settings){
     return 0;
 }
 
+int indexOfHeaderRow(CSV *source, char *header){
+    int row = 0;
+    for(int i = 0; i < source->size.rCount; i++){
+        if(strcmp(header, CSVREADREF(source,i,0))==0){
+            row = i;
+        }
+    }
+    return row;
+}
+
+int indexOfHeaderCol(CSV *source, char *header){
+    int col = 0;
+    for(int i = 0; i < source->size.cCount; i++){
+        if(strcmp(header, CSVREADREF(source,0,i))==0){
+            col = i;
+        }
+    }
+    return col;
+}
+
 char * indexByHeader(CSV *source, char *rKey, char *cKey){
 
     int row = -1;

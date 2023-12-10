@@ -29,7 +29,9 @@ int main() {
 
     displayCSV(&names,0,12,stdout);
 
-    printf("1 Job - %s", indexByHeader(&names,"joe","Salary"));
+    sortRows(&names,sortModes[DecAlpha], indexOfHeaderCol(&names,"Job"));
+    printf("\n");
+    displayCSV(&names,0,12,stdout);
 
 
     //saveCSV(&names,filename2,custom);

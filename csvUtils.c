@@ -6,6 +6,55 @@
 #include "csvUtils.h"
 #endif
 
+int (*sortModes[4])(char*,char*) = {&numIncreasing, &numDecreasing, &alphaIncreasing, &alphaDecreasing};
+
+
+int numIncreasing(char *op1, char *op2){
+    char *buffer;
+    long long num1 = strtoll(op1,&buffer,10);
+    if(buffer==op1){
+        return -1;
+    }
+    long long num2 = strtoll(op2,&buffer,10);
+    if(buffer==op2){
+        return -1;
+    }
+    if(num1>num2){
+        return 1;
+    }
+    return 0;
+}
+
+int numDecreasing(char *op1, char *op2){
+    char *buffer;
+    long long num1 = strtoll(op1,&buffer,10);
+    if(buffer==op1){
+        return -1;
+    }
+    long long num2 = strtoll(op2,&buffer,10);
+    if(buffer==op2){
+        return -1;
+    }
+    if(num1<num2){
+        return 1;
+    }
+    return 0;
+}
+
+int alphaIncreasing(char *op1, char *op2){
+    if(strcmp(op1,op2)>0){
+        return 1;
+    }
+    return 0;
+}
+
+int alphaDecreasing(char *op1, char *op2){
+    if(strcmp(op1,op2)<0){
+        return 1;
+    }
+    return 0;
+}
+
 int rmRowBefore(CSV *source,const char map[source->size.rCount]);
 
 int rmRowInside(CSV *source,const char map[source->size.rCount]);
@@ -524,7 +573,37 @@ int rectangleCopy_s(CSV *restrict source, CSV *restrict dest,
     return 0;
 }
 
-void sortedRows(CSV *source, SortMode mode){
+void sortRows(CSV *source, int (*sortAlgo)(char*, char*), int sortedColumn){
+    size_t rowSize = source->size.maxEntrySize * source->size.cCount;
+    char rowBuffer[rowSize];
+
+
+
+    for(int iterator = source->settings.colHeader;iterator<source->size.rCount;iterator++){
+        char base[source->size.maxEntrySize];
+        strncpy(base,CSVREADREF(source,iterator,sortedColumn),source->size.maxEntrySize);
+
+        for(int row = iterator;row<source->size.rCount;row++){
+            int sortResult = sortAlgo(base,CSVREADREF(source,row,sortedColumn));
+            if(sortResult==1){
+                memcpy(rowBuffer, CSVREADREF(source,row,0),rowSize);
+                memcpy(CSVREADREF(source,row,0),CSVREADREF(source,iterator,0),rowSize);
+                memcpy(CSVREADREF(source,iterator,0),rowBuffer,rowSize);
+                strncpy(base,CSVREADREF(source,iterator,sortedColumn),source->size.maxEntrySize);
+            }
+            else if(sortResult == -1){ //makes invalid entries go to the bottom
+                for(int backwards = source->size.rCount-1; backwards > row; backwards--){
+                    if(sortAlgo(base,CSVREADREF(source,backwards,sortedColumn)) != -1){
+                        memcpy(rowBuffer, CSVREADREF(source,row,0),rowSize);
+                        memcpy(CSVREADREF(source,row,0),CSVREADREF(source,backwards,0),rowSize);
+                        memcpy(CSVREADREF(source,backwards,0),rowBuffer,rowSize);
+                    }
+                }
+            }
+
+        }
+
+    }
 
 
 }

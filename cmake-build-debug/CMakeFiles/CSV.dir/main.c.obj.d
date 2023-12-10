@@ -21,4 +21,5 @@ CMakeFiles/CSV.dir/main.c.obj: C:\Users\Aweso\CLionProjects\csvLib\main.c \
  C:/msys64/mingw64/include/malloc.h \
  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
  C:/msys64/mingw64/include/errno.h C:/msys64/mingw64/include/math.h \
+ C:/msys64/mingw64/include/ctype.h \
  C:\Users\Aweso\CLionProjects\csvLib\csvUtils.h

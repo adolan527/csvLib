@@ -70,6 +70,10 @@ CSV makeBlankCSV(int rCount, int cCount, int maxEntrySize);
 
 CSV DMakeBlankCSV(Dimensions source);
 
+int indexOfHeaderRow(CSV *source, char *header);
+
+int indexOfHeaderCol(CSV *source, char *header);
+
 char * indexByHeader(CSV *source, char *rKey, char *cKey);
 
 int indexToCoordinates(CSV *source, int index, int *rowDest, int *colDest);
