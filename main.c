@@ -20,7 +20,14 @@ int main() {
     if(file == NULL){
         return 1;
     }
-
+    CSV csv = openCSV(file, DEFAULT_SETTINGS);
+    fclose(file);
+    displayCSV(&csv,8,0,0,stdout);
+    deleteColumn(&csv,2);
+    deleteRow(&csv,1);
+    displayCSV(&csv,8,0,0,stdout);
+    closeCSV(&csv);
+    return 0;
 
     CSV frc = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);

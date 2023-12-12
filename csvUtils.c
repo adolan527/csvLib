@@ -615,3 +615,42 @@ void sortRows(CSV *source, int (*sortAlgo)(char*, char*), int sortedColumn){
 
 
 }
+
+void deleteRow(CSV *source, int row){
+    if(row >= source->size.rCount){
+        printf("Error: Out of bounds row in deleteRow\n"); //dest is an index. Therefore the max is rCount-1
+        printf("row: %d rMax: %d\n",row,source->size.rCount);
+        return;
+    }
+    char *tempRows = (char*)calloc(source->size.rCount-1,sizeof(char[source->size.maxEntrySize]) * source->size.cCount);
+    memcpy(tempRows, source->rows, row * source->size.cCount * source->size.maxEntrySize);
+    memcpy(tempRows + row * source->size.cCount * source->size.maxEntrySize, CSVREADREF(source,row,0), (source->size.rCount - row - 1) * source->size.cCount * source->size.maxEntrySize);
+    free(source->rows);
+    source->rows = tempRows;
+    source->size.rCount--;
+}
+
+void deleteColumn(CSV *source, int col){
+    if(col>= source->size.cCount){
+        printf("Error: Out of bounds column in deleteColumn\n"); //dest is an index. Therefore the max is cCount-1
+        printf("col: %d cMax: %d\n",col,source->size.cCount);
+        return;
+    }
+    source->size.cCount-=1;
+    int colReached = 0;
+    char *tempCols = (char*)calloc(source->size.rCount, sizeof(char[source->size.maxEntrySize]) * source->size.cCount);
+    for(int i = 0; i < source->size.cCount+1;i++){
+        if(i!=col){
+            for(int row = 0; row < source->size.rCount; row++){
+                memcpy(tempCols + source->size.maxEntrySize * ((row * source->size.cCount) + (i - colReached)),
+                       &(source->rows[source->size.maxEntrySize * (row * (source->size.cCount + 1) + i)]),
+                       source->size.maxEntrySize);
+            }
+        }
+        else{
+            colReached++;
+        }
+    }
+    free(source->rows);
+    source->rows = tempCols;
+}

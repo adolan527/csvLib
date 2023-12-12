@@ -72,3 +72,7 @@ int rectangleSwap(CSV *source, CSV *dest,
                   int rSrc1,int cSrc1,
                   int rSrc2,int cSrc2,
                   int rDest,int cDest);
+
+void deleteRow(CSV *source, int row);
+
+void deleteColumn(CSV *source, int col);
