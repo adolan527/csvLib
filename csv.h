@@ -58,6 +58,10 @@ CSV openCSV(FILE *source, CSVSettings settings);
 
 void closeCSV(CSV *subject);
 
+void printRow(CSV *source,int row, int displayedCharPerEntry, FILE *outputStream);
+
+void printColumn(CSV *source,int col, int displayedCharPerEntry, FILE *outputStream);
+
 void displayCSV(CSV *source, int displayedCharPerEntry, int colStart, int colEnd, FILE *outputStream);
 
 int saveCSV(CSV *source, char *filename);

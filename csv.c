@@ -115,6 +115,64 @@ void editCSV(CSV *source, char info[source->size.maxEntrySize], int rowIndex, in
 }
  */
 
+void printRow(CSV *source,int row, int displayedCharPerEntry, FILE *outputStream){
+    if(displayedCharPerEntry == 0){
+        for(int i = 0;i<source->size.cCount;i++){
+            int buf = strlen(CSVREADREF(source,row,i));
+            if(buf > displayedCharPerEntry){
+                displayedCharPerEntry=buf;
+            }
+        }
+    }
+    char buffer[source->size.maxEntrySize];
+    for(int col = 0;col<source->size.cCount;col++){
+        if(displayedCharPerEntry == -1){
+            fprintf(outputStream,"%s",&source->rows[CSVINDEXREF(source, row, col)]);
+        }
+        else{
+            strncpy(buffer, &source->rows[CSVINDEXREF(source, row, col)], displayedCharPerEntry);
+            buffer[displayedCharPerEntry] = 0;
+            fprintf(outputStream, "%*s", displayedCharPerEntry, buffer);
+        }
+
+
+        if(source->size.cCount - col != 1){
+            fprintf(outputStream,"%c",source->settings.colDelin);
+        }
+
+    }
+    fprintf(outputStream,"%c",source->settings.rowDelin);
+}
+
+void printColumn(CSV *source,int col, int displayedCharPerEntry, FILE *outputStream){
+    if(displayedCharPerEntry == 0){
+        for(int i = 0;i<source->size.cCount;i++){
+            int buf = strlen(CSVREADREF(source,i,col));
+            if(buf>displayedCharPerEntry){
+                displayedCharPerEntry=buf;
+            }
+        }
+    }
+    char buffer[source->size.maxEntrySize];
+    for(int row = 0;row<source->size.rCount;row++){
+        if(displayedCharPerEntry==-1){
+            fprintf(outputStream,"%s",&source->rows[CSVINDEXREF(source, row, col)]);
+        }
+        else{
+            strncpy(buffer,&source->rows[CSVINDEXREF(source, row, col)],displayedCharPerEntry);
+            buffer[displayedCharPerEntry] = 0;
+            fprintf(outputStream,"%*s",displayedCharPerEntry,buffer);
+        }
+
+
+
+        if(source->size.cCount - col != 1){
+            fprintf(outputStream,"%c",source->settings.rowDelin);
+        }
+
+    }
+}
+
 void displayCSV(CSV *source, int displayedCharPerEntry, int colStart, int colEnd, FILE *outputStream){
     int endColumn = (colEnd ? colEnd : source->size.cCount);
     colStart -= source->settings.rowHeader;

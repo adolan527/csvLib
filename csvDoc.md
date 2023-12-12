@@ -126,11 +126,12 @@ closeCSV(&example);
 
 #### displayCSV
 ```c
-void displayCSV(CSV *source, int displayedCharPerEntry, FILE *outputStream);
+void displayCSV(CSV *source, int displayedCharPerEntry, int colStart, int colEnd, FILE *outputStream);
 ```
 Displays the CSV to the given output stream. 
 **source** is a pointer to the **CSV** struct to be displayed. 
 **displayedCharPerEntry** is the number of characters to display per entry. If it is 0, then it will default to **source->size.maxEntrySize**. If a string is longer than the **displayedCharPerEntry**, it will be truncated.
+**colStart** and **colEnd** define the range of columns to be displayed. If **colEnd** is 0 then it will display to the end of the **CSV**.
 If **CSV.settings.colHeader** or **.rowHeader** are 1, those rows/columns will be displayed above/beside the data. If those values are 0, then indices are displayed instead.
 
 Example Code:
@@ -143,7 +144,7 @@ CSV names = openCSV(file, DEFAULT_SETTINGS);
 fclose(file);
 names.settings.colHeader = 1;
 names.settings.rowHeader = 1;
-displayCSV(&names,12,stdout);
+displayCSV(&names,12,0,0,stdout);
 ```
 Example Output:
 ```
@@ -154,6 +155,46 @@ Example Output:
      Derrick|           9,      intern,    corporal,          -1
 "Charles, th|          80,        King,Grand Marsha,"1,000,000,0
 ```
+
+#### printRow and printColumn
+
+```c
+void printRow(CSV *source,int row, int displayedCharPerEntry, FILE *outputStream);
+
+void printColumn(CSV *source,int col, int displayedCharPerEntry, FILE *outputStream);
+```
+
+Displays the given row/column to the given output stream.
+**source** is a pointer to the **CSV** struct to be displayed. **row** and **col** are the row and column to be displayed respectively.
+**displayedCharPerEntry** is the number of characters to display per entry. If it is 0, then it will default to the largest entry present. If it is -1, then all entries will be displayed without padding. 
+If a string is longer than the **displayedCharPerEntry** (excluding -1 and 0), it will be truncated.
+Ignores headers.
+
+Example:
+```c
+FILE *file = fopen(filename2,"r");
+    if(file == NULL){
+        return 1;
+    }
+    CSV names = openCSV(file, DEFAULT_SETTINGS);
+    fclose(file);
+    printRow(&names,0,0,stdout);
+    printRow(&names,1,-1,stdout);
+    printColumn(&names,0,4,stdout);
+    closeCSV(&names);
+```
+Example Output:
+```
+  Name,   Age,   Job,  rank,Salary
+Joe,21,manager,private,99
+Name
+ Joe
+ Bob
+Jimm
+Derr
+"Cha
+```
+
 
 #### saveCSV
 ```c
@@ -217,7 +258,7 @@ CSV example = makeBlankCSV(5,5,10);
 char array[5][10] = {"Hello","World","How","Are","You"};
 arrayToCSV(&example,array,5,10,0,0,'r');
 arrayToCSV(&example,*array,5,10,1,3,'c');
-displayCSV(&example,0,stdout);
+displayCSV(&example,0,0,0,stdout);
 closeCSV(&example);
 ```
 Example Output:
@@ -295,7 +336,7 @@ CSV blank = makeBlankCSV(8,3,5);
 CSV names = openCSV(file, DEFAULT_SETTINGS);
 fclose(file);
 copyCSV(&names, &blank);
-displayCSV(&blank,5,stdout);
+displayCSV(&blank,5,0,0,stdout);
 ```
 Example Output:
 ```
@@ -324,11 +365,11 @@ Example:
 CSV names = openCSV(file, DEFAULT_SETTINGS);
 fclose(file);
 resizeCSV(&names,(Dimensions){.rCount = 12, .cCount = 3, .maxEntrySize = 20});
-displayCSV(&names,0,stdout);
+displayCSV(&names,0,0,0,stdout);
 
 ```
 Example Output:
-```c
+```
   |                   A|                   B|                   C|
  0|                Name,                 Age,                 Job
  1|                 Joe,                  21,             manager

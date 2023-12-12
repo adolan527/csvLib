@@ -16,27 +16,36 @@ int main() {
     char filename3[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\stuff.csv";
 
 
-    FILE *file = fopen(filename,"r");
+    FILE *file = fopen(filename2,"r");
     if(file == NULL){
         return 1;
     }
+
+
     CSV frc = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
     frc.settings.colHeader=1;
     frc.settings.rowHeader=1;
 
     displayCSV(&frc,5,0,0,stdout);
-    int index=indexOfHeaderCol(&frc,"Defense rank");
+
+    int index=indexOfHeaderCol(&frc,"6 Did the robot show");
     if(index!=0){
         sortRows(&frc,sortModes[DecNum],index);
         printf("\n\n");
-        displayCSV(&frc,16,index,0,stdout);
+        displayCSV(&frc,0,index,index+1,stdout);
+        printf("\n\n");
+        displayCSV(&frc,0, indexOfHeaderCol(&frc,"Points direct and alliance at 1/3"),indexOfHeaderCol(&frc,"Points direct and alliance at 1/3") +1,stdout);
     }
     else{
         printf("could not find that header");
     }
+    printf("\n\n");
+    printRow(&frc,0,4,stdout);
 
-
+    printRow(&frc,indexOfHeaderRow(&frc,"Team 17"),4,stdout);
+    printf("\n\n");
+    printColumn(&frc, indexOfHeaderCol(&frc,"Auto Points"),0,stdout);
 
     closeCSV(&frc);
 
