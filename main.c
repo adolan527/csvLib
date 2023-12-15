@@ -11,13 +11,14 @@
 
 
 int main() {
-    char filename[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\frcData.csv";
-    char filename2[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\names.csv";
-    char filename3[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\stuff.csv";
+    char filename[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\input\\frcData.csv";
+    char filename2[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\input\\names.csv";
+    char filename3[] = "C:\\Users\\Aweso\\CLionProjects\\csvLib\\input\\stuff.csv";
 
 
     FILE *file = fopen(filename2,"r");
     if(file == NULL){
+        printf("Could not open %s",filename2);
         return 1;
     }
     CSV csv = openCSV(file, DEFAULT_SETTINGS);
@@ -30,6 +31,7 @@ int main() {
 
     file = fopen(filename,"r");
     if(file == NULL){
+        printf("Could not open %s",filename);
         return 1;
     }
 
