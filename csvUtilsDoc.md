@@ -545,8 +545,8 @@ Blank: Post copy, post swap
 
 #### removeRow and removeColumn
 ```c
-void deleteRow(CSV *source, int row);
-void deleteColumn(CSV *source, int col);
+void removeRow(CSV *source, int row);
+void removeColumn(CSV *source, int col);
 ```
 These functions remove a row or column from the **CSV**.
 The row or column is specified by the **row** or **col** parameter.

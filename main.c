@@ -23,11 +23,15 @@ int main() {
     CSV csv = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
     displayCSV(&csv,8,0,0,stdout);
-    deleteColumn(&csv,2);
-    deleteRow(&csv,1);
+    //deleteColumn(&csv,2);
+    removeRow(&csv,0);
     displayCSV(&csv,8,0,0,stdout);
     closeCSV(&csv);
-    return 0;
+
+    file = fopen(filename,"r");
+    if(file == NULL){
+        return 1;
+    }
 
     CSV frc = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
