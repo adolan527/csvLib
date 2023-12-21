@@ -24,7 +24,8 @@ int main() {
     CSV csv = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
     displayCSV(&csv,8,0,0,stdout);
-    removeColumn(&csv,2);
+    removeColumn(&csv,4);
+    removeRow(&csv,1);
     printf("\n");
     displayCSV(&csv,8,0,0,stdout);
     closeCSV(&csv);

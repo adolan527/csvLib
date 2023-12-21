@@ -392,6 +392,43 @@ void changeMES(CSV *source,int newMES);
 Changes the maximum entry size of the CSV. **source** is a pointer to the **CSV** struct to be resized. **newMES** is the new maximum entry size.
 Wrapper for **resizeCSV** due to the frequency of changing the maximum entry size. All other attributes are unchanged.
 
+#### removeRow and removeColumn
+```c
+void removeRow(CSV *source, int row);
+void removeColumn(CSV *source, int col);
+```
+Removes the given row/column from the CSV. **source** is a pointer to the **CSV** struct to be modified. **row** and **col** are the row and column to be removed respectively.
+Checks for out of bounds indices.
+
+Example:
+```c
+CSV csv = openCSV(file, DEFAULT_SETTINGS);
+fclose(file);
+displayCSV(&csv,8,0,0,stdout);
+removeColumn(&csv,4);
+removeRow(&csv,1);
+printf("\n");
+displayCSV(&csv,8,0,0,stdout);
+closeCSV(&csv);
+```
+Example Output:
+```
+  |       A|       B|       C|       D|       E|
+ 0|    Name,     Age,     Job,    rank,  Salary
+ 1|     Joe,      21, manager, private,      99
+ 2|     Bob,      34,  worker, general,     100
+ 3|   Jimmy,       4,   thief,   Elite,  Unpaid
+ 4| Derrick,       9,  intern,corporal,      -1
+ 5|"Charles,      80,    King,Grand Ma,"1,000,0
+
+  |       A|       B|       C|       D|
+ 0|    Name,     Age,     Job,    rank
+ 1|     Bob,      34,  worker, general
+ 2|   Jimmy,       4,   thief,   Elite
+ 3| Derrick,       9,  intern,corporal
+ 4|"Charles,      80,    King,Grand Ma
+```
+
 ### Easy Functions
 These functions are not fully implemented yet, but the goal is to reduce the amount of overhead for the programmer with these functions.
 In the future, there will be "easy" ways to all of the actions one might wish to do with a CSV.

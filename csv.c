@@ -476,18 +476,22 @@ void removeColumn(CSV *source, int col){
         printf("col: %d cMax: %d\n",col,source->size.cCount);
         return;
     }
-    int rowSize = source->size.maxEntrySize * source->size.cCount;
+    int colReached = 0;
+    int rowSize = source->size.maxEntrySize * (source->size.cCount-1);
     char *tempRows = (char*)calloc(source->size.rCount,rowSize);
-    for(int i = 0;i<source->size.rCount;i++){
-        int offset = source->size.maxEntrySize * i * source->size.cCount;
-        int size = source->size.maxEntrySize * source->size.cCount;
-        memcpy(&tempRows[offset],
-               CSVREADREF(source,i,0),
-               source->size.maxEntrySize * source->size.cCount);
-        for(int j = col;j<source->size.cCount-1;j++){
-            memcpy(&tempRows[offset + source->size.maxEntrySize * j],
-                   &tempRows[offset + source->size.maxEntrySize * (j+1)],
-                   source->size.maxEntrySize);
+    for(int i = 0;i<source->size.cCount;i++){
+        if(i!=col){
+            //copy column
+            for(int j = 0;j <source->size.rCount;j++){
+                int offset = source->size.maxEntrySize * (i-colReached) + j * rowSize;
+                memcpy(&tempRows[offset],
+                       CSVREADREF(source,j,i),
+                       source->size.maxEntrySize);
+            }
+
+        }
+        else{
+            colReached++;
         }
     }
     source->size.cCount-=1;
