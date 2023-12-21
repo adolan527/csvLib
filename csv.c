@@ -444,6 +444,57 @@ void closeCSV(CSV *source){
     free(source->rows);
 }
 
+void removeRow(CSV *source, int row){
+    if(row>= source->size.rCount){
+        printf("Error: Out of bounds row in deleteRow\n"); //dest is an index. Therefore the max is rCount-1
+        printf("row: %d rMax: %d\n",row,source->size.rCount);
+        return;
+    }
+    int rowSize = source->size.maxEntrySize * source->size.cCount;
+    int rowReached = 0;
+    char *tempRows = (char*)calloc(source->size.rCount-1,rowSize);
+    for(int i = 0;i<source->size.rCount;i++){
+        if(i!=row){
+            int offset = source->size.maxEntrySize * (i-rowReached) * source->size.cCount;
+            int size = source->size.maxEntrySize * source->size.cCount;
+            memcpy(&tempRows[offset],
+            CSVREADREF(source,i,0),
+            source->size.maxEntrySize * source->size.cCount);
+            }
+        else{
+        rowReached++;
+        }
+    }
+    source->size.rCount-=1;
+    free(source->rows);
+    source->rows = tempRows;
+}
+
+void removeColumn(CSV *source, int col){
+    if(col>= source->size.cCount){
+        printf("Error: Out of bounds column in deleteColumn\n"); //dest is an index. Therefore the max is cCount-1
+        printf("col: %d cMax: %d\n",col,source->size.cCount);
+        return;
+    }
+    int rowSize = source->size.maxEntrySize * source->size.cCount;
+    char *tempRows = (char*)calloc(source->size.rCount,rowSize);
+    for(int i = 0;i<source->size.rCount;i++){
+        int offset = source->size.maxEntrySize * i * source->size.cCount;
+        int size = source->size.maxEntrySize * source->size.cCount;
+        memcpy(&tempRows[offset],
+               CSVREADREF(source,i,0),
+               source->size.maxEntrySize * source->size.cCount);
+        for(int j = col;j<source->size.cCount-1;j++){
+            memcpy(&tempRows[offset + source->size.maxEntrySize * j],
+                   &tempRows[offset + source->size.maxEntrySize * (j+1)],
+                   source->size.maxEntrySize);
+        }
+    }
+    source->size.cCount-=1;
+    free(source->rows);
+    source->rows = tempRows;
+}
+
 CSV easyOpenCSV(char *filename){
     FILE *easyFile = fopen(filename,"r+");
     CSV easyCSV = openCSV(easyFile, DEFAULT_SETTINGS);

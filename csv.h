@@ -88,6 +88,10 @@ void resizeCSV(CSV *source,Dimensions newSize);
 
 void changeMES(CSV *source,int newMES);
 
+void removeRow(CSV *source, int row);
+
+void removeColumn(CSV *source, int col);
+
 CSV easyOpenCSV(char *filename);
 
 void easyCloseCSV(CSV *subject);

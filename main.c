@@ -24,10 +24,11 @@ int main() {
     CSV csv = openCSV(file, DEFAULT_SETTINGS);
     fclose(file);
     displayCSV(&csv,8,0,0,stdout);
-    //deleteColumn(&csv,2);
-    removeRow(&csv,0);
+    removeColumn(&csv,2);
+    printf("\n");
     displayCSV(&csv,8,0,0,stdout);
     closeCSV(&csv);
+    return 0;
 
     file = fopen(filename,"r");
     if(file == NULL){

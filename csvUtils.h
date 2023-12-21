@@ -9,6 +9,8 @@
 #define CSV_CSVUTILS_H
 #endif //CSV_CSVUTILS_H
 
+#include <stdlib.h>
+
 typedef enum{
     Before = 2,
     Inside = 3,
@@ -73,6 +75,4 @@ int rectangleSwap(CSV *source, CSV *dest,
                   int rSrc2,int cSrc2,
                   int rDest,int cDest);
 
-void removeRow(CSV *source, int row);
 
-void removeColumn(CSV *source, int col);
