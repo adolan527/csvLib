@@ -17,6 +17,7 @@ int main() {
 
 
     FILE *file = fopen(filename2,"r");
+    printf("Pointer: %p, Base: %p, TMPFNAME: %p\n",file->_ptr,file->_base,file->_tmpfname);
     if(file == NULL){
         printf("Could not open %s",filename2);
         return 1;

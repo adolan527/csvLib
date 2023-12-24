@@ -1,13 +1,16 @@
 //
 // Created by Aweso on 11/24/2023.
 //
-#ifndef CSV_CSV_H
-#include "csv.h"
-#endif
+
+
+
 
 #ifndef CSV_CSVUTILS_H
 #define CSV_CSVUTILS_H
-#endif //CSV_CSVUTILS_H
+
+#ifndef CSV_CSV_H
+#include "csv.h"
+#endif
 
 #include <stdlib.h>
 
@@ -76,3 +79,4 @@ int rectangleSwap(CSV *source, CSV *dest,
                   int rDest,int cDest);
 
 
+#endif //CSV_CSVUTILS_H

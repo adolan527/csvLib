@@ -24,9 +24,9 @@ CMakeFiles/CSV.dir/csv.c.obj: C:/Users/Aweso/CLionProjects/csvLib/csv.c \
   C:/msys64/mingw64/include/string.h \
   C:/msys64/mingw64/include/swprintf.inl \
   C:/msys64/mingw64/include/vadefs.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/limits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/mm_malloc.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h \
   C:/Users/Aweso/CLionProjects/csvLib/csv.h
 
 CMakeFiles/CSV.dir/csvUtils.c.obj: C:/Users/Aweso/CLionProjects/csvLib/csvUtils.c \
@@ -52,9 +52,9 @@ CMakeFiles/CSV.dir/csvUtils.c.obj: C:/Users/Aweso/CLionProjects/csvLib/csvUtils.
   C:/msys64/mingw64/include/string.h \
   C:/msys64/mingw64/include/swprintf.inl \
   C:/msys64/mingw64/include/vadefs.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/limits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/mm_malloc.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h \
   C:/Users/Aweso/CLionProjects/csvLib/csv.h \
   C:/Users/Aweso/CLionProjects/csvLib/csvUtils.h
 
@@ -81,9 +81,9 @@ CMakeFiles/CSV.dir/main.c.obj: C:/Users/Aweso/CLionProjects/csvLib/main.c \
   C:/msys64/mingw64/include/string.h \
   C:/msys64/mingw64/include/swprintf.inl \
   C:/msys64/mingw64/include/vadefs.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/limits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/mm_malloc.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h \
   C:/Users/Aweso/CLionProjects/csvLib/csv.h \
   C:/Users/Aweso/CLionProjects/csvLib/csvUtils.h
 
@@ -110,9 +110,9 @@ CMakeFiles/CSV.dir/testing.c.obj: C:/Users/Aweso/CLionProjects/csvLib/testing.c 
   C:/msys64/mingw64/include/string.h \
   C:/msys64/mingw64/include/swprintf.inl \
   C:/msys64/mingw64/include/vadefs.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h \
-  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/limits.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/mm_malloc.h \
+  C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h \
   C:/Users/Aweso/CLionProjects/csvLib/csv.h \
   C:/Users/Aweso/CLionProjects/csvLib/csvUtils.h
 
@@ -153,8 +153,6 @@ C:/msys64/mingw64/include/sdks/_mingw_ddk.h:
 
 C:/msys64/mingw64/include/sec_api/stdio_s.h:
 
-C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/mm_malloc.h:
-
 C:/msys64/mingw64/include/sec_api/stdlib_s.h:
 
 C:/msys64/mingw64/include/sec_api/string_s.h:
@@ -167,9 +165,11 @@ C:/msys64/mingw64/include/string.h:
 
 C:/msys64/mingw64/include/vadefs.h:
 
-C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h:
+C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/limits.h:
 
-C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/syslimits.h:
+C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/mm_malloc.h:
+
+C:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include/syslimits.h:
 
 C:/Users/Aweso/CLionProjects/csvLib/csv.h:
 

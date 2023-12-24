@@ -9,7 +9,7 @@
 #ifndef CSV_CSV_H
 #define CSV_CSV_H
 
-#endif //CSV_CSV_H
+
 
 typedef struct{
     int rCount;
@@ -99,3 +99,4 @@ void easyCloseCSV(CSV *subject);
 void easySaveCSV(CSV *source);
 
 
+#endif //CSV_CSV_H
