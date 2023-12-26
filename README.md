@@ -18,10 +18,15 @@ To include this library in your project, simply download/clone csv.c and csv.h, 
 
 To learn more about the functions, see the [documentation](https://github.com/adolan527/csvLib/blob/b6cb55ec113783f2a1c3be334d47b27cd05df10e/docs/csvDoc.md).
 
-Limitations - 
-The current problem is the MES is used for every single entry regardless of its size. Making the MES variable would be useful, however that would require a lot of refactoring. 
-Thus, making the headers have a separate MES would seem to be the best method for reducing memory usage. (For example, 2kb file malloc() 19kb of memory, 
-as there were a lot of entries with a few characters but a few with a lot of characters.)
-Other potential solutions include making the CSV into a 2D linked list of entries, or a linked list of rows where each row has its own MES.
-When considering the scope of the project and what I plan on using this library for, this should be fine, however, should I come back to this and try to make it more scalable, 
-transforming the CSV from an array to a list would be ideal.
+### Limitations
+An issue that could prevent scaling in the future would be the structure of a CSV file. 
+Having every entry in the CSV taking up the same amount of space means that a file where every entry is one character except for one entry which is 100 characters means the size and efficiency would be drastically reduced. 
+Potential solutions would be: 
+ - Making each entry a pointer to a dynamically allocated string. This would require more referencing, a lot of refactoring, and more init/de-init.
+ - Making each row have a different Max Entry Size. This would require less refactoring, and would probably minimize the aforementioned issue, but it is not guaranteed nor as effective as the previous option.
+ - Making the CSV more like an array of strings, where each entry terminates with a null character that signifies the next entry starting. Easy implementation but would greatly reduce performance and add complexity.
+ - Making the CSV into a linked list. Requires complete refactoring and some worsening of performance but much more efficient memory usage.
+   - Each entry is its own node and points to the entries right and down of it. 2D (probably singly) linked list.
+   - Each row (could also be column, it is arbitrary) is a node in a doubly linked list. Each node contains a singly linked list of its entries.
+   - Each entry is its own node and points to the next entry in a 1D singly linked list.
+  
