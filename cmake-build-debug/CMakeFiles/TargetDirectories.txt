@@ -1,3 +1,0 @@
-C:/Users/Aweso/CLionProjects/csvLib/cmake-build-debug/CMakeFiles/CSV.dir
-C:/Users/Aweso/CLionProjects/csvLib/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Aweso/CLionProjects/csvLib/cmake-build-debug/CMakeFiles/rebuild_cache.dir
