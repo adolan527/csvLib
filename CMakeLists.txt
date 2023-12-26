@@ -8,4 +8,4 @@ add_executable(CSV main.c
         csv.h
         csvUtils.c
         csvUtils.h
-        testing.c)
+        )
